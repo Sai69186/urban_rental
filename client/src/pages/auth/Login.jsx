@@ -164,8 +164,11 @@ const Login = () => {
               <label className="form-label">Email Address</label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="login-email"
+                  name="email"
                   type="email"
                   required
+                  autoComplete="email"
                   className="form-input"
                   placeholder="name@example.com"
                   value={email}
@@ -187,11 +190,14 @@ const Login = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Password</label>
+              <label className="form-label" htmlFor="login-password">Password</label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="login-password"
+                  name="password"
                   type="password"
                   required
+                  autoComplete="current-password"
                   className="form-input"
                   placeholder="••••••••"
                   value={password}

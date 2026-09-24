@@ -157,11 +157,14 @@ const Register = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label">Full Name</label>
+              <label className="form-label" htmlFor="register-name">Full Name</label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="register-name"
+                  name="name"
                   type="text"
                   required
+                  autoComplete="name"
                   className="form-input"
                   placeholder="e.g. John Doe"
                   value={formData.name}
@@ -176,11 +179,14 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label" htmlFor="register-email">Email Address</label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="register-email"
+                  name="email"
                   type="email"
                   required
+                  autoComplete="email"
                   className="form-input"
                   placeholder="name@example.com"
                   value={formData.email}
@@ -195,11 +201,14 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Phone Number</label>
+              <label className="form-label" htmlFor="register-phone">Phone Number</label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="register-phone"
+                  name="phone"
                   type="tel"
                   required
+                  autoComplete="tel"
                   className="form-input"
                   placeholder="+91 9876543210"
                   value={formData.phone}
@@ -215,10 +224,13 @@ const Register = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="register-password-grid">
               <div className="form-group">
-                <label className="form-label">Password</label>
+                <label className="form-label" htmlFor="register-password">Password</label>
                 <input
+                  id="register-password"
+                  name="password"
                   type="password"
                   required
+                  autoComplete="new-password"
                   minLength={6}
                   className="form-input"
                   placeholder="Min 6 chars"
@@ -228,10 +240,13 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Confirm Password</label>
+                <label className="form-label" htmlFor="register-confirm-password">Confirm Password</label>
                 <input
+                  id="register-confirm-password"
+                  name="confirmPassword"
                   type="password"
                   required
+                  autoComplete="new-password"
                   minLength={6}
                   className="form-input"
                   placeholder="Re-enter password"
