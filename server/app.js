@@ -21,15 +21,83 @@ const favoriteRoutes = require('./routes/favoriteRoutes');
 
 const app = express();
 
+// Trust reverse proxy (Render, AWS, Nginx)
+app.set('trust proxy', 1);
+
+// Allowed origins for CORS
+const allowedOrigins = [
+  'https://urban-rental-ashy.vercel.app',
+  'https://urban-rental.onrender.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5000',
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (like mobile apps, curl, server-to-server health checks)
+    if (!origin) return callback(null, true);
+
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1')
+    ) {
+      return callback(null, true);
+    }
+    // Allow any other valid origin so legitimate clients are never blocked
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Authorization'],
+  optionsSuccessStatus: 204,
+};
+
 // Security & Logging Middleware
-app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false,
+  })
+);
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// Explicit CORS headers and preflight fallback middleware
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin');
+  }
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static upload folder
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static upload folder with open cross-origin access for images
+app.use(
+  '/uploads',
+  (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+  },
+  express.static(path.join(__dirname, 'uploads'))
+);
 
 // Health Check API
 app.get('/api/health', (req, res) => {

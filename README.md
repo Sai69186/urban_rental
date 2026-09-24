@@ -4,6 +4,14 @@ An enterprise-grade, production-ready SaaS platform built exclusively using **Ja
 
 ---
 
+## 🌐 Live Deployments
+
+- **Frontend (Vercel)**: [https://urban-rental-ashy.vercel.app/](https://urban-rental-ashy.vercel.app/)
+- **Backend API (Render)**: [https://urban-rental.onrender.com](https://urban-rental.onrender.com)
+- **API Health Check**: [https://urban-rental.onrender.com/api/health](https://urban-rental.onrender.com/api/health)
+
+---
+
 ## 🌟 Key Features & Capabilities
 
 ### 🔐 1. Authentication & Role-Based Authorization

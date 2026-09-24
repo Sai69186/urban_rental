@@ -19,7 +19,8 @@ const authenticateUser = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    const jwtSecret = process.env.JWT_SECRET || 'super_secure_rental_jwt_secret_key_2026_98374982374';
+    const decoded = jwt.verify(token, jwtSecret);
 
     const user = await User.findById(decoded.id);
 

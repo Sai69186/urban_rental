@@ -5,7 +5,8 @@ const createNotification = require('../utils/notify');
 
 // Generate JWT token helper
 const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET || 'fallback_secret', {
+  const jwtSecret = process.env.JWT_SECRET || 'super_secure_rental_jwt_secret_key_2026_98374982374';
+  return jwt.sign({ id, role }, jwtSecret, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 };
