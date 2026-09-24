@@ -30,10 +30,12 @@ const TenantOverview = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchTenantData = async () => {
       try {
         setLoading(true);
-        const [agrRes, rentRes, appRes, maintRes, favRes] = await Promise.all([
+        const [agrRes, rentRes, appRes, maintRes, favRes] = await Promise.allSettled([
           api.get('/agreements'),
           api.get('/rents'),
           api.get('/applications/my-applications'),
@@ -41,19 +43,37 @@ const TenantOverview = () => {
           api.get('/favorites'),
         ]);
 
-        if (agrRes.data.success) setAgreements(agrRes.data.data);
-        if (rentRes.data.success) setRents(rentRes.data.data);
-        if (appRes.data.success) setApplications(appRes.data.data);
-        if (maintRes.data.success) setMaintenance(maintRes.data.data);
-        if (favRes.data.success) setFavorites(favRes.data.data);
+        if (!isMounted) return;
+
+        if (agrRes.status === 'fulfilled' && agrRes.value?.data?.success) {
+          setAgreements(agrRes.value.data.data || []);
+        }
+        if (rentRes.status === 'fulfilled' && rentRes.value?.data?.success) {
+          setRents(rentRes.value.data.data || []);
+        }
+        if (appRes.status === 'fulfilled' && appRes.value?.data?.success) {
+          setApplications(appRes.value.data.data || []);
+        }
+        if (maintRes.status === 'fulfilled' && maintRes.value?.data?.success) {
+          setMaintenance(maintRes.value.data.data || []);
+        }
+        if (favRes.status === 'fulfilled' && favRes.value?.data?.success) {
+          setFavorites(favRes.value.data.data || []);
+        }
       } catch (error) {
-        console.error('Failed to load tenant dashboard data:', error);
+        console.warn('Dashboard data fetch warning:', error?.message);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchTenantData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) return <LoadingSpinner text="Loading your tenant hub..." fullScreen />;

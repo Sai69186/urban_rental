@@ -26,28 +26,46 @@ const OwnerOverview = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchOwnerData = async () => {
       try {
         setLoading(true);
-        const [propsRes, appsRes, rentsRes, maintRes] = await Promise.all([
+        const [propsRes, appsRes, rentsRes, maintRes] = await Promise.allSettled([
           api.get('/properties/owner/my-properties'),
           api.get('/applications/owner'),
           api.get('/rents/summary'),
           api.get('/maintenance'),
         ]);
 
-        if (propsRes.data.success) setProperties(propsRes.data.data);
-        if (appsRes.data.success) setApplications(appsRes.data.data);
-        if (rentsRes.data.success) setRents(rentsRes.data.data);
-        if (maintRes.data.success) setMaintenance(maintRes.data.data);
+        if (!isMounted) return;
+
+        if (propsRes.status === 'fulfilled' && propsRes.value?.data?.success) {
+          setProperties(propsRes.value.data.data || []);
+        }
+        if (appsRes.status === 'fulfilled' && appsRes.value?.data?.success) {
+          setApplications(appsRes.value.data.data || []);
+        }
+        if (rentsRes.status === 'fulfilled' && rentsRes.value?.data?.success) {
+          setRents(rentsRes.value.data.data || []);
+        }
+        if (maintRes.status === 'fulfilled' && maintRes.value?.data?.success) {
+          setMaintenance(maintRes.value.data.data || []);
+        }
       } catch (error) {
-        console.error('Failed to load owner overview data:', error);
+        console.warn('Owner dashboard data fetch warning:', error?.message);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchOwnerData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) return <LoadingSpinner text="Loading your portfolio metrics..." fullScreen />;
