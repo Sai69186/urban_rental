@@ -1,0 +1,301 @@
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { Building2, Search, LogOut, Menu, X, LayoutDashboard } from 'lucide-react';
+import NotificationDropdown from './NotificationDropdown';
+
+const Navbar = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const getDashboardRoute = () => {
+    if (user?.role === 'admin') return '/admin/overview';
+    if (user?.role === 'owner') return '/owner/overview';
+    return '/tenant/overview';
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  return (
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: 'rgba(15, 23, 42, 0.92)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid #334155',
+        width: '100%',
+      }}
+      className="no-print"
+    >
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: '76px',
+        }}
+      >
+        {/* Brand Logo */}
+        <Link
+          to="/"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem',
+            textDecoration: 'none',
+          }}
+        >
+          <div
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#ffffff',
+              boxShadow: '0 4px 14px rgba(79, 70, 229, 0.4)',
+              flexShrink: 0,
+            }}
+          >
+            <Building2 size={22} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span
+              style={{
+                fontSize: '1.45rem',
+                fontWeight: 800,
+                letterSpacing: '-0.025em',
+                background: 'linear-gradient(to right, #ffffff, #e2e8f0, #c7d2fe)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                lineHeight: 1.15,
+                fontFamily: 'var(--font-heading)',
+              }}
+            >
+              UrbanNest
+            </span>
+            <span
+              style={{
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                color: '#818cf8',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Rental Platform
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation Links */}
+        <nav className="navbar-desktop-links">
+          <Link
+            to="/explore"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              fontSize: '0.925rem',
+              fontWeight: 600,
+              color: location.pathname === '/explore' ? '#818cf8' : '#cbd5e1',
+              borderBottom: location.pathname === '/explore' ? '2px solid #6366f1' : '2px solid transparent',
+              paddingBottom: '0.25rem',
+              transition: 'color 0.15s ease',
+            }}
+          >
+            <Search size={16} /> Explore Homes
+          </Link>
+          <Link
+            to="/about"
+            style={{
+              fontSize: '0.925rem',
+              fontWeight: 600,
+              color: location.pathname === '/about' ? '#818cf8' : '#cbd5e1',
+              borderBottom: location.pathname === '/about' ? '2px solid #6366f1' : '2px solid transparent',
+              paddingBottom: '0.25rem',
+              transition: 'color 0.15s ease',
+            }}
+          >
+            About
+          </Link>
+          <Link
+            to="/contact"
+            style={{
+              fontSize: '0.925rem',
+              fontWeight: 600,
+              color: location.pathname === '/contact' ? '#818cf8' : '#cbd5e1',
+              borderBottom: location.pathname === '/contact' ? '2px solid #6366f1' : '2px solid transparent',
+              paddingBottom: '0.25rem',
+              transition: 'color 0.15s ease',
+            }}
+          >
+            Support
+          </Link>
+        </nav>
+
+        {/* User Actions & Mobile Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          {isAuthenticated ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+              <NotificationDropdown />
+              <Link to={getDashboardRoute()} className="btn btn-primary btn-sm">
+                <LayoutDashboard size={15} /> Dashboard
+              </Link>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  paddingLeft: '0.75rem',
+                  borderLeft: '1px solid #334155',
+                }}
+              >
+                <img
+                  src={
+                    user?.profileImage ||
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=4f46e5&color=fff`
+                  }
+                  alt={user?.name}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '2px solid rgba(129, 140, 248, 0.4)',
+                  }}
+                />
+                <button
+                  onClick={handleLogout}
+                  className="p-2 text-slate-400 hover:text-rose-400 rounded-lg"
+                  title="Sign Out"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#94a3b8',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Link
+                to="/login"
+                style={{
+                  padding: '0.55rem 1rem',
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  color: '#cbd5e1',
+                  textDecoration: 'none',
+                }}
+              >
+                Sign In
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm">
+                Get Started
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="navbar-mobile-toggle"
+            aria-label="Toggle menu"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#94a3b8',
+              padding: '0.4rem',
+            }}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            background: '#0f172a',
+            borderTop: '1px solid #334155',
+            padding: '1.25rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <Link
+            to="/explore"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: '#f8fafc',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+            }}
+          >
+            <Search size={16} /> Explore Homes
+          </Link>
+          <Link
+            to="/about"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.95rem' }}
+          >
+            About
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.95rem' }}
+          >
+            Support
+          </Link>
+        </div>
+      )}
+
+      <style>{`
+        .navbar-desktop-links {
+          display: flex;
+          align-items: center;
+          gap: 2.25rem;
+        }
+        .navbar-mobile-toggle {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .navbar-desktop-links {
+            display: none !important;
+          }
+          .navbar-mobile-toggle {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      `}</style>
+    </header>
+  );
+};
+
+export default Navbar;
