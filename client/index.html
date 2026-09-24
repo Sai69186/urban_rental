@@ -6,6 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UrbanNest | Next-Gen Rental Property Platform</title>
     <meta name="description" content="Manage rental properties, digital lease agreements, tenant screening, automated rent tracking, and maintenance requests seamlessly." />
+    <!-- Console Filter for Browser Autofill / Extension Heuristics -->
+    <script>
+      (function() {
+        var isTargetWarning = function(item) {
+          if (!item) return false;
+          var str = typeof item === 'string' ? item : (item.message || item.stack || String(item));
+          return str.indexOf('deprecated parameters for the initialization function') !== -1 ||
+                 str.indexOf('feature_collector') !== -1;
+        };
+
+        ['warn', 'error', 'log', 'info'].forEach(function(method) {
+          var orig = console[method];
+          if (orig) {
+            console[method] = function() {
+              for (var i = 0; i < arguments.length; i++) {
+                if (isTargetWarning(arguments[i])) return;
+              }
+              return orig.apply(console, arguments);
+            };
+          }
+        });
+
+        window.addEventListener('error', function(e) {
+          if (e && (isTargetWarning(e.message) || isTargetWarning(e.filename))) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
