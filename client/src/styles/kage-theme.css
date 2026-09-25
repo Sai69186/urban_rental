@@ -1,0 +1,941 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   AUTHENTIC KAGE THEME SYSTEM — ARCHITECTURAL RESIDENCES
+   Full native implementation of ThreeUI Kage Aesthetic:
+   - Deep Obsidian Ink ground (#05070a) & atmospheric radial light shafts
+   - Pale bone typography (#dfe7e0) with Japanese architectural subtitles
+   - Iconic vermilion accents (#e0231c) & glowing ember halos
+   - Silhouette depth layers (sakura, pine, temple walls, basalt stones, ruins)
+   - Translucent glassmorphism panels with animated border glows
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --kage-ink: #05070a;
+  --kage-ink-2: #0a0e14;
+  --kage-ink-card: rgba(10, 14, 20, 0.76);
+  --kage-ink-card-hover: rgba(16, 22, 30, 0.9);
+  
+  --kage-bone: #dfe7e0;
+  --kage-bone-bright: #ffffff;
+  --kage-bone-dim: #9aa89f;
+  --kage-muted: #67756c;
+  
+  --kage-line: rgba(223, 231, 224, 0.12);
+  --kage-line-soft: rgba(223, 231, 224, 0.06);
+  --kage-line-hover: rgba(224, 35, 28, 0.5);
+  
+  --kage-vermilion: #e0231c;
+  --kage-vermilion-hover: #c41e17;
+  --kage-ember: #ff5a3c;
+  --kage-vermilion-glow: rgba(224, 35, 28, 0.35);
+  --kage-gold: #c9a24a;
+  
+  --kage-font: 'Onest', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --kage-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --kage-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Full Theme Page Root ────────────────────────────────────────────── */
+.kage-full-theme {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--kage-ink);
+  color: var(--kage-bone);
+  font-family: var(--kage-font);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background Atmospheric Canvas (Native CSS Shaders & Light Rays) */
+.kage-ambient-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.kage-ambient-canvas::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(600px, 75vw, 1200px);
+  height: clamp(600px, 75vw, 1200px);
+  background: radial-gradient(circle, rgba(224, 35, 28, 0.15) 0%, rgba(224, 35, 28, 0.04) 45%, transparent 70%);
+  filter: blur(60px);
+  border-radius: 50%;
+}
+
+.kage-ambient-canvas::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255, 90, 60, 0.08) 0%, transparent 65%);
+  filter: blur(80px);
+  border-radius: 50%;
+}
+
+/* Foreground Japanese Silhouettes */
+.kage-fg-layer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+  transition: transform 0.5s ease-out;
+}
+
+.kage-fg-sakura {
+  top: 0;
+  right: -20px;
+  width: clamp(280px, 35vw, 620px);
+  max-width: 100%;
+}
+
+.kage-fg-pine {
+  top: 140px;
+  left: -40px;
+  width: clamp(240px, 28vw, 480px);
+  opacity: 0.65;
+}
+
+.kage-fg-grass {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: clamp(120px, 16vw, 240px);
+  object-fit: cover;
+  opacity: 0.45;
+}
+
+.kage-fg-stones {
+  bottom: 20px;
+  right: 40px;
+  width: clamp(200px, 22vw, 380px);
+  opacity: 0.75;
+}
+
+.kage-fg-wall {
+  top: 30%;
+  left: -20px;
+  width: clamp(220px, 25vw, 420px);
+  opacity: 0.55;
+  transform: scaleX(-1);
+}
+
+.kage-fg-ruins {
+  bottom: 40px;
+  left: 20px;
+  width: clamp(260px, 30vw, 500px);
+  opacity: 0.65;
+}
+
+/* Content Container sitting above atmosphere */
+.kage-theme-container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4.5vw, 64px);
+}
+
+/* ── Hero Section ───────────────────────────────────────────────────── */
+.kage-hero-wrap {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(100px, 14vh, 160px) 0 clamp(60px, 8vh, 100px) 0;
+}
+
+.kage-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(10, 14, 20, 0.75);
+  border: 1px solid var(--kage-line);
+  backdrop-filter: blur(14px);
+  margin-bottom: 28px;
+}
+
+.kage-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--kage-vermilion);
+  box-shadow: 0 0 10px var(--kage-vermilion);
+  animation: kagePulse 2.4s infinite;
+}
+
+@keyframes kagePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.kage-chip-tx {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--kage-bone-bright);
+}
+
+.kage-chip-jp {
+  font-size: 11px;
+  color: var(--kage-vermilion);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.kage-hero-heading {
+  font-size: clamp(36px, 5.8vw, 76px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--kage-bone-bright);
+  max-width: 1040px;
+  margin: 0 auto 24px auto;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.9);
+}
+
+.kage-hero-heading em {
+  font-style: normal;
+  color: var(--kage-vermilion);
+  text-shadow: 0 0 35px rgba(224, 35, 28, 0.5);
+}
+
+.kage-hero-sub {
+  font-size: clamp(16px, 1.8vw, 21px);
+  font-weight: 300;
+  color: var(--kage-bone-dim);
+  max-width: 740px;
+  margin: 0 auto 48px auto;
+  line-height: 1.65;
+}
+
+/* Floating Search Bar */
+.kage-search-bar {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto 44px auto;
+  background: rgba(10, 14, 20, 0.85);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--kage-line);
+  border-radius: 100px;
+  padding: 8px 10px 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  transition: all 0.3s var(--kage-ease);
+}
+
+.kage-search-bar:focus-within {
+  border-color: rgba(224, 35, 28, 0.6);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(224, 35, 28, 0.22);
+}
+
+.kage-search-input-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1.4;
+}
+
+.kage-search-input-field {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--kage-bone-bright);
+  font-size: 15px;
+  font-family: var(--kage-font);
+  font-weight: 300;
+  width: 100%;
+}
+
+.kage-search-input-field::placeholder {
+  color: var(--kage-muted);
+}
+
+.kage-search-vrule {
+  width: 1px;
+  height: 30px;
+  background: var(--kage-line);
+}
+
+.kage-search-select-box {
+  flex: 1;
+}
+
+.kage-search-select-field {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--kage-bone-dim);
+  font-size: 14px;
+  font-family: var(--kage-font);
+  font-weight: 400;
+  width: 100%;
+  cursor: pointer;
+}
+
+.kage-search-select-field option {
+  background: #080c10;
+  color: #dfe7e0;
+}
+
+.kage-search-btn {
+  border: none;
+  background: var(--kage-vermilion);
+  color: #ffffff;
+  padding: 14px 30px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: var(--kage-font);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px var(--kage-vermilion-glow);
+  transition: all 0.25s var(--kage-ease);
+}
+
+.kage-search-btn:hover {
+  background: var(--kage-vermilion-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(224, 35, 28, 0.55);
+}
+
+/* Quick Metrics Row */
+.kage-trust-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 56px);
+  flex-wrap: wrap;
+}
+
+.kage-trust-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kage-bone-dim);
+}
+
+.kage-trust-pill svg {
+  color: var(--kage-vermilion);
+}
+
+/* ── Section Structure ──────────────────────────────────────────────── */
+.kage-block {
+  padding: clamp(80px, 10vh, 130px) 0;
+  position: relative;
+}
+
+.kage-header-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.kage-chapter-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--kage-vermilion);
+  white-space: nowrap;
+}
+
+.kage-chapter-line {
+  flex: 1;
+  height: 1px;
+  background: var(--kage-line);
+}
+
+.kage-chapter-jp {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--kage-muted);
+}
+
+.kage-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: clamp(36px, 5vh, 64px);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.kage-main-title {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+  color: var(--kage-bone-bright);
+}
+
+.kage-main-subtitle {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--kage-bone-dim);
+  max-width: 620px;
+  margin-top: 10px;
+}
+
+.kage-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kage-bone-bright);
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 1px solid var(--kage-line);
+  border-radius: 999px;
+  background: rgba(10, 14, 20, 0.6);
+  backdrop-filter: blur(16px);
+  transition: all 0.25s var(--kage-ease);
+}
+
+.kage-action-link:hover {
+  border-color: var(--kage-vermilion);
+  color: var(--kage-vermilion);
+  transform: translateX(4px);
+}
+
+/* ── Property Cards (Kage Card Frame Style) ─────────────────────────── */
+.kage-residences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 32px;
+}
+
+.kage-residence-card {
+  position: relative;
+  background: var(--kage-ink-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--kage-line);
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.4s var(--kage-ease), border-color 0.35s ease, box-shadow 0.4s ease;
+}
+
+.kage-residence-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--kage-line-hover);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(224, 35, 28, 0.18);
+}
+
+/* Ambient Ember Glow within Card */
+.kage-card-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(224, 35, 28, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 0.6;
+}
+
+.kage-residence-card:hover .kage-card-glow {
+  opacity: 1;
+  background: radial-gradient(circle, rgba(255, 90, 60, 0.4) 0%, transparent 70%);
+}
+
+.kage-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #020305;
+}
+
+.kage-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--kage-ease);
+}
+
+.kage-residence-card:hover .kage-card-img {
+  transform: scale(1.06);
+}
+
+.kage-card-badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.kage-pill-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+}
+
+.kage-tag-verified {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+}
+
+.kage-tag-type {
+  background: rgba(5, 7, 10, 0.75);
+  color: var(--kage-bone-bright);
+  border: 1px solid var(--kage-line);
+}
+
+.kage-card-arrow {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--kage-line);
+  color: var(--kage-bone-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.25s var(--kage-ease);
+}
+
+.kage-residence-card:hover .kage-card-arrow {
+  background: var(--kage-vermilion);
+  border-color: var(--kage-vermilion);
+  transform: translate(2px, -2px);
+  box-shadow: 0 0 16px var(--kage-vermilion-glow);
+}
+
+.kage-card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.kage-card-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--kage-bone-bright);
+  line-height: 1.35;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.kage-card-loc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--kage-bone-dim);
+  margin-bottom: 18px;
+}
+
+.kage-card-specs {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--kage-line-soft);
+  border-bottom: 1px solid var(--kage-line-soft);
+  margin-bottom: 18px;
+}
+
+.kage-card-spec-item {
+  font-size: 12px;
+  color: var(--kage-bone-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kage-card-spec-item b {
+  color: var(--kage-bone-bright);
+  font-weight: 600;
+}
+
+.kage-card-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.kage-card-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--kage-vermilion);
+  letter-spacing: -0.02em;
+}
+
+.kage-card-price span {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--kage-muted);
+}
+
+.kage-card-cta-txt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--kage-bone-bright);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Four Ecosystem Pillars (Kage Lessons Style) ────────────────────── */
+.kage-curriculum-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
+}
+
+.kage-curriculum-card {
+  background: var(--kage-ink-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--kage-line);
+  border-radius: 20px;
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s var(--kage-ease), border-color 0.3s ease;
+}
+
+.kage-curriculum-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--kage-vermilion);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--kage-ease);
+}
+
+.kage-curriculum-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(224, 35, 28, 0.45);
+}
+
+.kage-curriculum-card:hover::after {
+  transform: scaleX(1);
+}
+
+.kage-curriculum-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--kage-vermilion);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kage-curriculum-jp {
+  font-size: 12px;
+  color: var(--kage-muted);
+  font-weight: 500;
+}
+
+.kage-curriculum-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(224, 35, 28, 0.1);
+  border: 1px solid rgba(224, 35, 28, 0.22);
+  color: var(--kage-ember);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.kage-curriculum-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--kage-bone-bright);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.kage-curriculum-desc {
+  font-size: 14px;
+  color: var(--kage-bone-dim);
+  line-height: 1.65;
+}
+
+/* ── Role Portals Section ───────────────────────────────────────────── */
+.kage-portals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+.kage-portal-card {
+  background: var(--kage-ink-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--kage-line);
+  border-radius: 24px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s var(--kage-ease);
+}
+
+.kage-portal-card:hover {
+  border-color: rgba(224, 35, 28, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(224, 35, 28, 0.15);
+  transform: translateY(-5px);
+}
+
+.kage-portal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kage-portal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(223, 231, 224, 0.08);
+  border: 1px solid var(--kage-line);
+  color: var(--kage-bone-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kage-portal-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--kage-bone-bright);
+}
+
+.kage-portal-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kage-vermilion);
+}
+
+.kage-portal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.kage-portal-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--kage-bone-dim);
+  line-height: 1.5;
+}
+
+.kage-portal-item svg {
+  color: var(--kage-vermilion);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.kage-portal-cta {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kage-bone-bright);
+  text-decoration: none;
+  padding: 14px 24px;
+  border: 1px solid var(--kage-line);
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(5, 7, 10, 0.65);
+  transition: all 0.25s var(--kage-ease);
+}
+
+.kage-portal-card:hover .kage-portal-cta {
+  background: var(--kage-vermilion);
+  border-color: var(--kage-vermilion);
+  color: #ffffff;
+  box-shadow: 0 4px 20px var(--kage-vermilion-glow);
+}
+
+/* ── Final Gateway (Afterlight CTA) ─────────────────────────────────── */
+.kage-gateway-wrap {
+  padding: clamp(90px, 12vh, 150px) 0;
+  text-align: center;
+  position: relative;
+}
+
+.kage-gateway-panel {
+  background: radial-gradient(circle at 50% 0%, rgba(224, 35, 28, 0.2) 0%, rgba(10, 14, 20, 0.92) 70%);
+  border: 1px solid var(--kage-line);
+  border-radius: 36px;
+  padding: clamp(54px, 8vw, 90px) clamp(24px, 5vw, 64px);
+  max-width: 1120px;
+  margin: 0 auto;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 70px rgba(224, 35, 28, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.kage-gateway-panel::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: url('/landing-pages/secret-pathways-assets/foreground/png/hill.webp') no-repeat center bottom;
+  background-size: cover;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.kage-gateway-title {
+  font-size: clamp(32px, 4.8vw, 56px);
+  font-weight: 400;
+  color: var(--kage-bone-bright);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.kage-gateway-text {
+  font-size: clamp(15px, 1.8vw, 18px);
+  color: var(--kage-bone-dim);
+  max-width: 680px;
+  margin: 0 auto 40px auto;
+  line-height: 1.65;
+}
+
+.kage-gateway-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Responsive Rules */
+@media (max-width: 900px) {
+  .kage-search-bar {
+    border-radius: 24px;
+    flex-direction: column;
+    padding: 16px;
+  }
+  .kage-search-vrule {
+    display: none;
+  }
+  .kage-search-input-box,
+  .kage-search-select-box,
+  .kage-search-btn {
+    width: 100%;
+  }
+  .kage-search-btn {
+    justify-content: center;
+  }
+}
+
+/* ── ThreeDPaper Hero Frame ─────────────────────────────────────── */
+.three-d-paper-hero-frame {
+  width: 100%;
+  max-width: 1180px;
+  height: 600px;
+  min-height: 480px;
+  margin: 3rem auto 1rem;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.85);
+  background: #08080a;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 1024px) {
+  .three-d-paper-hero-frame {
+    height: 520px;
+    margin: 2rem auto 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .three-d-paper-hero-frame {
+    height: 420px;
+    min-height: 350px;
+    border-radius: 16px;
+  }
+}
+

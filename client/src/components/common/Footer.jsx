@@ -6,10 +6,14 @@ const Footer = () => {
   return (
     <footer
       style={{
-        background: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-color)',
+        background: 'transparent',
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         paddingTop: '4rem',
-        paddingBottom: '2rem',
+        paddingBottom: '2.5rem',
+        position: 'relative',
+        zIndex: 10,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
       }}
       className="no-print"
     >

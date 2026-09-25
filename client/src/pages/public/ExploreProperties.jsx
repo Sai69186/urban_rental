@@ -26,22 +26,20 @@ const ExploreProperties = () => {
     limit: 9,
   });
 
-  const fetchProperties = async () => {
+  const fetchProperties = async (customFilters = filters) => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
 
-      if (filters.city) params.append('city', filters.city);
-      if (filters.propertyType && filters.propertyType !== 'All') params.append('propertyType', filters.propertyType);
-      if (filters.minRent) params.append('minRent', filters.minRent);
-      if (filters.maxRent) params.append('maxRent', filters.maxRent);
-      if (filters.bedrooms && filters.bedrooms !== 'All') params.append('bedrooms', filters.bedrooms);
-      if (filters.furnishingStatus && filters.furnishingStatus !== 'All') params.append('furnishingStatus', filters.furnishingStatus);
-      if (filters.sort) params.append('sort', filters.sort);
-      params.append('page', filters.page);
-      params.append('limit', filters.limit);
-
-      setSearchParams(params);
+      if (customFilters.city) params.append('city', customFilters.city);
+      if (customFilters.propertyType && customFilters.propertyType !== 'All') params.append('propertyType', customFilters.propertyType);
+      if (customFilters.minRent) params.append('minRent', customFilters.minRent);
+      if (customFilters.maxRent) params.append('maxRent', customFilters.maxRent);
+      if (customFilters.bedrooms && customFilters.bedrooms !== 'All') params.append('bedrooms', customFilters.bedrooms);
+      if (customFilters.furnishingStatus && customFilters.furnishingStatus !== 'All') params.append('furnishingStatus', customFilters.furnishingStatus);
+      if (customFilters.sort) params.append('sort', customFilters.sort);
+      params.append('page', customFilters.page);
+      params.append('limit', customFilters.limit);
 
       const res = await api.get(`/properties?${params.toString()}`);
       if (res.data.success) {
@@ -57,13 +55,25 @@ const ExploreProperties = () => {
   };
 
   useEffect(() => {
-    fetchProperties();
+    fetchProperties(filters);
   }, [filters.page, filters.sort]);
 
   const handleApplyFilters = () => {
-    setFilters((prev) => ({ ...prev, page: 1 }));
-    fetchProperties();
+    const newFilters = { ...filters, page: 1 };
+    setFilters(newFilters);
+    fetchProperties(newFilters);
     setMobileFilterOpen(false);
+
+    // Sync to URL without causing full re-transitions
+    const params = new URLSearchParams();
+    if (newFilters.city) params.append('city', newFilters.city);
+    if (newFilters.propertyType && newFilters.propertyType !== 'All') params.append('propertyType', newFilters.propertyType);
+    if (newFilters.minRent) params.append('minRent', newFilters.minRent);
+    if (newFilters.maxRent) params.append('maxRent', newFilters.maxRent);
+    if (newFilters.bedrooms && newFilters.bedrooms !== 'All') params.append('bedrooms', newFilters.bedrooms);
+    if (newFilters.furnishingStatus && newFilters.furnishingStatus !== 'All') params.append('furnishingStatus', newFilters.furnishingStatus);
+    if (newFilters.sort) params.append('sort', newFilters.sort);
+    setSearchParams(params, { replace: true });
   };
 
   const handleResetFilters = () => {
@@ -79,21 +89,23 @@ const ExploreProperties = () => {
       limit: 9,
     };
     setFilters(defaultFilters);
-    setSearchParams(new URLSearchParams());
+    setSearchParams(new URLSearchParams(), { replace: true });
+    fetchProperties(defaultFilters);
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 1.5rem 5rem' }}>
-      {/* Page Header */}
-      <div style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <h1 style={{ fontSize: '2.4rem', fontWeight: 800 }}>
-            Explore Verified Rental Properties
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Showing {totalCount} verified homes available for lease
-          </p>
-        </div>
+    <div style={{ minHeight: 'calc(100vh - 76px)', background: 'radial-gradient(circle at 50% 10%, rgba(224, 35, 28, 0.07), transparent 50%), #05070a', color: '#f2f4f8' }}>
+      <div className="container" style={{ padding: '3rem 1.5rem 5rem' }}>
+        {/* Page Header */}
+        <div style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <h1 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#ffffff' }}>
+              Explore Verified Rental Properties
+            </h1>
+            <p style={{ color: '#94a3b8', marginTop: '0.25rem' }}>
+              Showing {totalCount} verified homes available for lease
+            </p>
+          </div>
 
         <button
           onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
@@ -118,8 +130,10 @@ const ExploreProperties = () => {
 
         {/* Properties Container */}
         <div>
-          {loading ? (
-            <LoadingSpinner text="Searching available properties..." fullScreen />
+          {loading && properties.length === 0 ? (
+            <div style={{ padding: '3rem 0', minHeight: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <LoadingSpinner text="Searching available sanctuaries..." />
+            </div>
           ) : properties.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
               <Home size={48} color="var(--primary-light)" style={{ opacity: 0.5, margin: '0 auto 1rem' }} />
@@ -139,6 +153,9 @@ const ExploreProperties = () => {
                   gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
                   gap: '1.5rem',
                   marginBottom: '2.5rem',
+                  opacity: loading ? 0.65 : 1,
+                  transition: 'opacity 0.2s ease',
+                  position: 'relative',
                 }}
               >
                 {properties.map((property) => (
@@ -198,6 +215,7 @@ const ExploreProperties = () => {
           }
         }
       `}</style>
+      </div>
     </div>
   );
 };

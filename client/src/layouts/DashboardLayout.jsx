@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
 import NotificationDropdown from '../components/common/NotificationDropdown';
-import { Menu, Sparkles } from 'lucide-react';
+import KageAmbientAtmosphere from '../components/common/KageAmbientAtmosphere';
+import { Menu, Sparkles, Activity, Search, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const DashboardLayout = () => {
@@ -20,16 +21,19 @@ const DashboardLayout = () => {
   };
 
   const roleStyles = {
-    admin: { bg: 'rgba(168, 85, 247, 0.15)', text: '#c084fc', border: 'rgba(168, 85, 247, 0.4)' },
-    owner: { bg: 'rgba(14, 165, 233, 0.15)', text: '#38bdf8', border: 'rgba(14, 165, 233, 0.4)' },
-    tenant: { bg: 'rgba(16, 185, 129, 0.15)', text: '#34d399', border: 'rgba(16, 185, 129, 0.4)' },
+    admin: { bg: 'rgba(139, 92, 246, 0.15)', text: '#c084fc', border: 'rgba(139, 92, 246, 0.4)', glow: '#8b5cf6' },
+    owner: { bg: 'rgba(14, 165, 233, 0.15)', text: '#38bdf8', border: 'rgba(14, 165, 233, 0.4)', glow: '#0ea5e9' },
+    tenant: { bg: 'rgba(16, 185, 129, 0.15)', text: '#34d399', border: 'rgba(16, 185, 129, 0.4)', glow: '#10b981' },
   };
 
   const currentRoleStyle = roleStyles[user?.role] || roleStyles.tenant;
 
   return (
-    <div className="dashboard-layout" style={{ display: 'flex', minHeight: '100vh', background: '#0b0f19' }}>
-      {/* Sidebar */}
+    <div className="dashboard-layout" style={{ display: 'flex', minHeight: '100vh', background: '#05070a', position: 'relative', overflow: 'hidden' }}>
+      {/* Universal Ambient Light Shafts and Silhouettes across entire viewport */}
+      <KageAmbientAtmosphere />
+
+      {/* Transparent Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Area */}
@@ -42,24 +46,24 @@ const DashboardLayout = () => {
           flexDirection: 'column',
           minHeight: '100vh',
           width: 'calc(100% - 280px)',
-          background: 'radial-gradient(circle at 80% 10%, rgba(79, 70, 229, 0.08), transparent 500px), #0b0f19',
+          background: 'transparent',
+          position: 'relative',
+          zIndex: 10,
         }}
       >
-        {/* Sticky Dashboard Header */}
+        {/* Transparent Header */}
         <header
           style={{
             position: 'sticky',
             top: 0,
             zIndex: 30,
             height: '76px',
-            background: 'rgba(13, 19, 34, 0.9)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            borderBottom: '1px solid #1e293b',
+            background: 'transparent',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 2.5rem',
+            padding: '0 clamp(1.5rem, 3vw, 2.5rem)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -83,31 +87,62 @@ const DashboardLayout = () => {
                   fontWeight: 800,
                   color: '#ffffff',
                   letterSpacing: '-0.02em',
-                  fontFamily: 'var(--font-heading)',
+                  fontFamily: 'var(--font-heading, "Plus Jakarta Sans", sans-serif)',
                   lineHeight: 1.2,
+                  margin: 0,
                 }}
               >
                 {getPageTitle()}
               </h2>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 500 }}>
-                Welcome back, <span style={{ color: '#e2e8f0' }}>{user?.name}</span> 👋
+              <p style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 500, margin: 0 }}>
+                Welcome back, <span style={{ color: '#ffffff', fontWeight: 700 }}>{user?.name}</span> 👋
               </p>
             </div>
           </div>
 
-          {/* Right Header items */}
+          {/* Right Telemetry & Profile items */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            {/* Live Telemetry Beacon */}
+            <div
+              className="telemetry-beacon-badge"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '100px',
+                background: 'rgba(16, 185, 129, 0.1)',
+                border: '1px solid rgba(16, 185, 129, 0.25)',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                color: '#34d399',
+              }}
+            >
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: '#34d399',
+                  boxShadow: '0 0 10px #34d399',
+                }}
+              />
+              <span className="telemetry-text">LIVE TELEMETRY</span>
+            </div>
+
             <NotificationDropdown />
 
+            {/* User Capsule */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem',
-                background: 'rgba(30, 41, 59, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'rgba(30, 41, 59, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 padding: '0.35rem 0.85rem 0.35rem 0.45rem',
                 borderRadius: '9999px',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
               }}
             >
               <img
@@ -121,7 +156,7 @@ const DashboardLayout = () => {
                   height: '32px',
                   borderRadius: '50%',
                   objectFit: 'cover',
-                  border: '2px solid rgba(129, 140, 248, 0.4)',
+                  border: `2px solid ${currentRoleStyle.glow}`,
                 }}
               />
               <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#ffffff' }} className="header-username">
@@ -146,7 +181,7 @@ const DashboardLayout = () => {
         </header>
 
         {/* Dynamic Nested Page Content */}
-        <main style={{ padding: '2.5rem', flex: 1, maxWidth: '1440px', width: '100%' }}>
+        <main style={{ padding: 'clamp(1.5rem, 3vw, 2.5rem)', flex: 1, maxWidth: '1440px', width: '100%' }}>
           <Outlet />
         </main>
       </div>
@@ -169,6 +204,11 @@ const DashboardLayout = () => {
           }
           .dashboard-mobile-menu-btn {
             display: block !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .telemetry-beacon-badge {
+            display: none !important;
           }
         }
         @media (max-width: 640px) {

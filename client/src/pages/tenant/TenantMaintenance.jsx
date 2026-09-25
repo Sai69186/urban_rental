@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
+import Button from '../../components/common/Button';
 import { Wrench, PlusCircle, CheckCircle2, Clock, AlertTriangle, AlertCircle } from 'lucide-react';
 
 const TenantMaintenance = () => {
@@ -201,22 +202,26 @@ const TenantMaintenance = () => {
         maxWidth="600px"
         footer={
           <>
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
               onClick={() => setModalOpen(false)}
-              className="btn btn-secondary btn-sm"
               disabled={submitting}
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="primary"
+              size="sm"
               onClick={handleCreateTicket}
-              className="btn btn-primary btn-sm"
-              disabled={submitting || !ticketForm.title || !ticketForm.description}
+              loading={submitting}
+              loadingText="Submitting..."
+              disabled={!ticketForm.title || !ticketForm.description}
             >
-              {submitting ? 'Submitting...' : 'Dispatch Ticket'}
-            </button>
+              Dispatch Ticket
+            </Button>
           </>
         }
       >

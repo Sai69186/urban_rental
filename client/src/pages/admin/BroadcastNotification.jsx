@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
 import { Radio, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import Button from '../../components/common/Button';
 
 const BroadcastNotification = () => {
   const [targetRole, setTargetRole] = useState('');
@@ -100,14 +101,17 @@ const BroadcastNotification = () => {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={sending}
-            className="btn btn-primary"
+            loading={sending}
+            loadingText="Broadcasting..."
+            variant="primary"
+            icon={Send}
+            iconPosition="right"
             style={{ width: '100%', padding: '0.8rem' }}
           >
-            {sending ? 'Broadcasting...' : 'Send Broadcast Notification'} <Send size={16} />
-          </button>
+            Send Broadcast Notification
+          </Button>
         </form>
       </div>
     </div>

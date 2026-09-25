@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { User, Lock, CheckCircle2, AlertCircle, Phone, MapPin, Mail } from 'lucide-react';
+import Button from '../../components/common/Button';
 
 const TenantProfile = () => {
   const { user, updateProfile, changePassword } = useAuth();
@@ -132,14 +133,15 @@ const TenantProfile = () => {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={updatingProfile}
-            className="btn btn-primary"
+            loading={updatingProfile}
+            loadingText="Saving..."
+            variant="primary"
             style={{ marginTop: '0.5rem' }}
           >
-            {updatingProfile ? 'Saving...' : 'Save Profile Changes'}
-          </button>
+            Save Profile Changes
+          </Button>
         </form>
       </div>
 
@@ -200,14 +202,15 @@ const TenantProfile = () => {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={changingPass}
-            className="btn btn-secondary"
+            loading={changingPass}
+            loadingText="Updating Password..."
+            variant="secondary"
             style={{ marginTop: '0.5rem' }}
           >
-            {changingPass ? 'Updating Password...' : 'Update Password'}
-          </button>
+            Update Password
+          </Button>
         </form>
       </div>
 

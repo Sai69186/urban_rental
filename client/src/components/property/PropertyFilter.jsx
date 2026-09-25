@@ -1,5 +1,6 @@
 import React from 'react';
 import { Filter, RotateCcw, Search } from 'lucide-react';
+import GlowSearchInput from '../common/GlowSearchInput';
 
 const PropertyFilter = ({ filters, setFilters, onApply, onReset }) => {
   const propertyTypes = ['All', 'Apartment', 'House', 'Villa', 'Studio', 'PG', 'Room'];
@@ -36,12 +37,11 @@ const PropertyFilter = ({ filters, setFilters, onApply, onReset }) => {
       {/* City */}
       <div className="form-group">
         <label className="form-label">City / Location</label>
-        <input
-          type="text"
-          className="form-input"
+        <GlowSearchInput
           placeholder="e.g. Mumbai, Bangalore..."
           value={filters.city || ''}
           onChange={(e) => handleChange('city', e.target.value)}
+          showFilter={false}
         />
       </div>
 

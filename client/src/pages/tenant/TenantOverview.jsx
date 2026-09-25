@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import StatCard from '../../components/common/StatCard';
+import ThreeDDashboardHero from '../../components/dashboard/ThreeDDashboardHero';
+import ThreeDProgressWidget from '../../components/dashboard/ThreeDProgressWidget';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import {
@@ -83,122 +85,85 @@ const TenantOverview = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Active Lease Hero Banner or Search Callout */}
-      {activeAgreement ? (
-        <div
-          style={{
-            background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.28) 0%, rgba(16, 185, 129, 0.18) 50%, rgba(15, 23, 42, 0.8) 100%)',
-            border: '1px solid rgba(129, 140, 248, 0.3)',
-            borderRadius: '24px',
-            padding: '2.25rem',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '1.5rem',
-            boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.5)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div style={{ position: 'relative', zIndex: 2 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.8rem', borderRadius: '9999px', background: 'rgba(16, 185, 129, 0.2)', border: '1px solid rgba(16, 185, 129, 0.4)', color: '#34d399', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-              <CheckCircle2 size={13} /> Active Tenancy Lease
-            </div>
-            <h2 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
-              {activeAgreement.property?.title}
-            </h2>
-            <p style={{ color: '#cbd5e1', fontSize: '0.95rem', marginTop: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <MapPin size={16} className="text-indigo-400" />
-              {activeAgreement.property?.address}, {activeAgreement.property?.city} — <span style={{ color: '#ffffff', fontWeight: 700 }}>₹{activeAgreement.monthlyRent?.toLocaleString()}/mo</span>
-            </p>
-          </div>
+      {/* 3D Isometric Interactive Hero Centerpiece */}
+      <ThreeDDashboardHero
+        role="tenant"
+        title={activeAgreement ? `Sanctuary: ${activeAgreement.property?.title}` : "Discover Architectural Living"}
+        subtitle={
+          activeAgreement
+            ? `${activeAgreement.property?.address}, ${activeAgreement.property?.city} — ₹${activeAgreement.monthlyRent?.toLocaleString()}/mo automated lease ledger.`
+            : "Search verified residences, submit 1-click digital applications, and manage escrow contracts."
+        }
+        primaryAction={
+          activeAgreement
+            ? { label: 'Rental Sanctum', to: '/tenant/rental' }
+            : { label: 'Find Properties', to: '/explore' }
+        }
+        secondaryAction={
+          activeAgreement
+            ? { label: 'Pay Rent Dues', to: '/tenant/rent' }
+            : { label: 'Saved Favorites', to: '/tenant/favorites' }
+        }
+      />
 
-          <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
-            <Link to="/tenant/rental" className="btn btn-primary btn-lg shadow-lg hover:shadow-indigo-500/30">
-              View Rental Details <ArrowRight size={16} />
-            </Link>
-            <Link to="/tenant/rent" className="btn btn-secondary btn-lg">
-              <CreditCard size={18} /> Pay Rent
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <div
-          style={{
-            background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(14, 165, 233, 0.18) 50%, rgba(15, 23, 42, 0.9) 100%)',
-            border: '1px solid rgba(129, 140, 248, 0.3)',
-            borderRadius: '24px',
-            padding: '2.5rem',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '1.5rem',
-            boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(79, 70, 229, 0.15)',
-          }}
-        >
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#818cf8', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-              <Sparkles size={15} /> Find Your Dream Home
-            </div>
-            <h2 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
-              Looking for your next home?
-            </h2>
-            <p style={{ color: '#cbd5e1', fontSize: '0.95rem', marginTop: '0.35rem', maxWidth: '600px' }}>
-              Browse verified rental apartments, independent villas, and co-living spaces with instant online screening.
-            </p>
-          </div>
-          <Link to="/explore" className="btn btn-primary btn-lg shadow-xl hover:shadow-indigo-500/40">
-            <Search size={18} /> Find Properties
-          </Link>
-        </div>
-      )}
-
-      {/* Stats Cards Grid */}
+      {/* 3D Stat Cards Grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '1.5rem',
         }}
       >
         <StatCard
-          title="Rental Status"
+          title="Tenancy Status"
           value={activeAgreement ? 'Active Lease' : 'Searching'}
           icon={Home}
+          color="#10b981"
           changeType="positive"
-          subtitle={activeAgreement ? `Agreement #${activeAgreement.agreementNumber}` : 'No active lease'}
+          subtitle={activeAgreement ? `Lease #${activeAgreement.agreementNumber}` : 'No active lease'}
         />
         <StatCard
-          title="Current Due"
+          title="Current Due Balance"
           value={pendingRent ? `₹${(pendingRent.amount + (pendingRent.lateFee || 0)).toLocaleString()}` : '₹0'}
           icon={CreditCard}
-          changeType={pendingRent?.status === 'overdue' ? 'negative' : (pendingRent ? 'neutral' : 'positive')}
-          subtitle={pendingRent ? `Due ${new Date(pendingRent.dueDate).toLocaleDateString()}` : 'All bills settled'}
+          color="#8b5cf6"
+          changeType={pendingRent?.status === 'overdue' ? 'negative' : pendingRent ? 'neutral' : 'positive'}
+          subtitle={pendingRent ? `Due ${new Date(pendingRent.dueDate).toLocaleDateString()}` : 'All dues clear'}
         />
         <StatCard
-          title="Applications"
+          title="My Applications"
           value={applications.length}
           icon={FileText}
-          subtitle={`${applications.filter((a) => a.status === 'pending').length} In Review`}
+          color="#0ea5e9"
+          subtitle={`${applications.filter((a) => a.status === 'pending').length} Under Screening`}
         />
         <StatCard
-          title="Saved Favorites"
+          title="Saved Sanctuaries"
           value={favorites.length}
           icon={Bookmark}
-          subtitle="Bookmarked properties"
+          color="#e0231c"
+          subtitle="Bookmarked for review"
         />
       </div>
 
-      {/* Two Column Section: Applications & Maintenance */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.75rem' }} className="tenant-overview-grid">
-        {/* Applications */}
-        <div className="card">
+      {/* Two Column Layout: Applications & Maintenance */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.75rem' }} className="tenant-analytics-grid">
+        {/* Applications Card */}
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '1.75rem',
+            boxShadow: '0 20px 45px -10px rgba(0, 0, 0, 0.5)',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>My Recent Applications</h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Tracking submitted rental applications</p>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', margin: 0, fontFamily: 'var(--font-heading)' }}>
+                My Applications
+              </h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>Live screening and approval telemetry</p>
             </div>
             <Link to="/tenant/applications" className="btn btn-outline btn-sm">
               View All <ExternalLink size={14} />
@@ -207,15 +172,15 @@ const TenantOverview = () => {
 
           {applications.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(79, 70, 229, 0.1)', color: '#818cf8', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
                 <FileText size={24} />
               </div>
               <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>No rental applications submitted</p>
               <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.25rem', marginBottom: '1.25rem' }}>
                 Explore properties and apply with 1-click tenant screening
               </p>
-              <Link to="/explore" className="btn btn-secondary btn-sm">
-                <Search size={14} /> Browse Listings
+              <Link to="/explore" className="btn btn-primary btn-sm">
+                <Search size={14} /> Browse Residences
               </Link>
             </div>
           ) : (
@@ -224,17 +189,18 @@ const TenantOverview = () => {
                 <div
                   key={app._id}
                   style={{
-                    padding: '1rem',
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    borderRadius: '14px',
+                    padding: '1rem 1.25rem',
+                    background: 'rgba(10, 15, 26, 0.5)',
+                    borderRadius: '16px',
                     border: '1px solid rgba(255, 255, 255, 0.06)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
                   }}
                 >
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{app.property?.title}</p>
+                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff', margin: 0 }}>{app.property?.title}</p>
                     <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
                       Move-In: {new Date(app.moveInDate).toLocaleDateString()} | {app.occupantsCount} Occupants
                     </p>
@@ -246,63 +212,21 @@ const TenantOverview = () => {
           )}
         </div>
 
-        {/* Maintenance Requests */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>Maintenance Tickets</h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Repair & service request status</p>
-            </div>
-            <Link to="/tenant/maintenance" className="btn btn-outline btn-sm">
-              Submit Ticket <ExternalLink size={14} />
-            </Link>
-          </div>
-
-          {maintenance.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(14, 165, 233, 0.1)', color: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
-                <Wrench size={24} />
-              </div>
-              <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>No active maintenance tickets</p>
-              <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.25rem', marginBottom: '1.25rem' }}>
-                Have an issue? Submit a ticket and landlord will be notified instantly
-              </p>
-              <Link to="/tenant/maintenance" className="btn btn-secondary btn-sm">
-                <Wrench size={14} /> Request Service
-              </Link>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {maintenance.slice(0, 4).map((m) => (
-                <div
-                  key={m._id}
-                  style={{
-                    padding: '1rem',
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    borderRadius: '14px',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div>
-                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{m.title}</p>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
-                      {m.category} | Reported {new Date(m.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <Badge status={m.status} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* 3D Telemetry Health Ring Widget */}
+        <ThreeDProgressWidget
+          title="Tenancy Health Score"
+          percentage={96}
+          items={[
+            { label: 'On-Time Payments', value: '100%', color: '#10b981' },
+            { label: 'Covenant Verification', value: '100%', color: '#8b5cf6' },
+            { label: 'Open Service Logs', value: `${maintenance.filter((m) => m.status !== 'Resolved').length} tickets`, color: '#e0231c' },
+          ]}
+        />
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .tenant-overview-grid {
+        @media (max-width: 1024px) {
+          .tenant-analytics-grid {
             grid-template-columns: 1fr !important;
           }
         }

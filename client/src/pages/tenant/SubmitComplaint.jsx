@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import { AlertCircle, Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import Button from '../../components/common/Button';
 
 const SubmitComplaint = () => {
   const [complaints, setComplaints] = useState([]);
@@ -136,14 +137,17 @@ const SubmitComplaint = () => {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={submitting}
-            className="btn btn-primary"
+            loading={submitting}
+            loadingText="Submitting Report..."
+            variant="primary"
+            icon={Send}
+            iconPosition="right"
             style={{ marginTop: '0.5rem' }}
           >
-            {submitting ? 'Submitting Report...' : 'Submit to Admin Team'} <Send size={16} />
-          </button>
+            Submit to Admin Team
+          </Button>
         </form>
       </div>
 

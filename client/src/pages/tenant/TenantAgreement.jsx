@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import PrintAgreementModal from '../../components/agreement/PrintAgreementModal';
+import Button from '../../components/common/Button';
 import { FileCheck, Printer, CheckCircle2, ShieldCheck, PenTool } from 'lucide-react';
 
 const TenantAgreement = () => {
@@ -109,27 +110,32 @@ const TenantAgreement = () => {
                         <CheckCircle2 size={12} /> Signed
                       </span>
                     ) : (
-                      <button
+                      <Button
                         onClick={() => handleSignAgreement(agr._id)}
-                        disabled={signingId === agr._id}
-                        className="btn btn-warning btn-sm"
-                        style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
+                        loading={signingId === agr._id}
+                        loadingText="Signing..."
+                        variant="primary"
+                        size="sm"
+                        icon={PenTool}
+                        style={{ fontSize: '0.75rem', padding: '0.25rem 0.6rem' }}
                       >
-                        <PenTool size={12} /> Counter-Sign
-                      </button>
+                        Counter-Sign
+                      </Button>
                     )}
                   </td>
                   <td>
                     <Badge status={agr.status} />
                   </td>
                   <td style={{ textAlign: 'right' }}>
-                    <button
+                    <Button
                       onClick={() => setSelectedAgreement(agr)}
-                      className="btn btn-primary btn-sm"
+                      variant="outline"
+                      size="sm"
+                      icon={Printer}
                       title="View & Download Printable PDF"
                     >
-                      <Printer size={14} /> View / Print PDF
-                    </button>
+                      View PDF
+                    </Button>
                   </td>
                 </tr>
               ))}

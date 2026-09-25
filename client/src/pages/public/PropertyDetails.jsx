@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
+import Button from '../../components/common/Button';
 import {
   Bed,
   Bath,
@@ -418,22 +419,26 @@ const PropertyDetails = () => {
         title={`Apply to Rent: ${property.title}`}
         footer={
           <>
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
               onClick={() => setApplyModalOpen(false)}
-              className="btn btn-secondary btn-sm"
               disabled={submittingApp}
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="primary"
+              size="sm"
               onClick={handleApplicationSubmit}
-              className="btn btn-primary btn-sm"
-              disabled={submittingApp || !appFormData.moveInDate || !appFormData.monthlyIncome}
+              loading={submittingApp}
+              loadingText="Submitting Application..."
+              disabled={!appFormData.moveInDate || !appFormData.monthlyIncome}
             >
-              {submittingApp ? 'Submitting Application...' : 'Confirm & Submit Application'}
-            </button>
+              Confirm & Submit Application
+            </Button>
           </>
         }
       >

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
+import GlowSearchInput from '../../components/common/GlowSearchInput';
 import { Users, Search, ShieldCheck, ShieldAlert, Trash2, CheckCircle2, XCircle } from 'lucide-react';
 
 const UserManagement = () => {
@@ -85,26 +86,15 @@ const UserManagement = () => {
       {/* Top Search & Filter Bar */}
       <div className="card" style={{ padding: '1.25rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: '260px' }}>
-            <div style={{ position: 'relative', width: '100%' }}>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="Search user by name, email, or phone..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && fetchUsers()}
-                style={{ paddingLeft: '2.5rem' }}
-              />
-              <Search
-                size={18}
-                color="var(--text-muted)"
-                style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}
-              />
-            </div>
-            <button onClick={fetchUsers} className="btn btn-secondary btn-sm">
-              Search
-            </button>
+          <div style={{ flex: 1, minWidth: '280px', maxWidth: '520px' }}>
+            <GlowSearchInput
+              placeholder="Search user by name, email, or phone..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && fetchUsers()}
+              onFilterClick={fetchUsers}
+              showFilter={true}
+            />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

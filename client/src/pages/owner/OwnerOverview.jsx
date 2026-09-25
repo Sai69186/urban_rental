@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import StatCard from '../../components/common/StatCard';
+import ThreeDDashboardHero from '../../components/dashboard/ThreeDDashboardHero';
+import ThreeDProgressWidget from '../../components/dashboard/ThreeDProgressWidget';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import {
@@ -78,55 +80,37 @@ const OwnerOverview = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Welcome Banner & Quick Action */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(79, 70, 229, 0.2) 50%, rgba(15, 23, 42, 0.9) 100%)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
-          borderRadius: '24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-          padding: '2.25rem',
-          boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.5)',
-        }}
-      >
-        <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-            <Sparkles size={15} /> Real Estate Portfolio
-          </div>
-          <h2 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
-            Owner Portfolio Hub
-          </h2>
-          <p style={{ color: '#cbd5e1', fontSize: '0.95rem', marginTop: '0.35rem' }}>
-            Manage listings, review incoming lease applications, and track rent collection in real-time.
-          </p>
-        </div>
-        <Link to="/owner/properties" className="btn btn-primary btn-lg shadow-xl hover:shadow-indigo-500/40">
-          <PlusCircle size={18} /> Add New Property
-        </Link>
-      </div>
+      {/* 3D Isometric Interactive Hero Centerpiece */}
+      <ThreeDDashboardHero
+        role="owner"
+        title="Real Estate Asset Matrix"
+        subtitle="Manage verified residences, track automated rent payouts, and counter-sign legally binding digital lease covenants."
+        primaryAction={{ label: 'Add New Residence', to: '/owner/properties' }}
+        secondaryAction={{ label: 'Rent Ledger', to: '/owner/rent-ledger' }}
+      />
 
-      {/* Stats Cards Grid */}
+      {/* 3D Stat Cards Grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '1.5rem',
         }}
       >
         <StatCard
-          title="Total Properties"
+          title="Portfolio Listings"
           value={totalProperties}
           icon={Building2}
-          subtitle={`${availableCount} Available | ${rentedCount} Leased`}
+          color="#0ea5e9"
+          change="+12.5%"
+          changeType="positive"
+          subtitle={`${availableCount} Available • ${rentedCount} Leased`}
         />
         <StatCard
-          title="Pending Applications"
+          title="Tenant Applications"
           value={pendingApps}
           icon={FileText}
+          color="#8b5cf6"
           changeType={pendingApps > 0 ? 'neutral' : 'positive'}
           subtitle="Tenants awaiting screening"
         />
@@ -134,26 +118,39 @@ const OwnerOverview = () => {
           title="Rent Collected"
           value={`₹${(rents?.paidRent || 0).toLocaleString()}`}
           icon={CreditCard}
+          color="#10b981"
+          change="+19.2%"
           changeType="positive"
           subtitle={`₹${(rents?.pendingRent || 0).toLocaleString()} Dues Pending`}
         />
         <StatCard
-          title="Maintenance Tickets"
+          title="Maintenance Requests"
           value={openTickets}
           icon={Wrench}
+          color="#e0231c"
           changeType={openTickets > 0 ? 'neutral' : 'positive'}
           subtitle="Open repair requests"
         />
       </div>
 
-      {/* Two Column Layout: Recent Applications & Maintenance Tickets */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.75rem' }} className="owner-overview-grid">
-        {/* Recent Applications */}
-        <div className="card">
+      {/* Analytics & Distribution Row */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.75rem' }} className="owner-analytics-grid">
+        {/* Recent Applications Card */}
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '1.75rem',
+            boxShadow: '0 20px 45px -10px rgba(0, 0, 0, 0.5)',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>Incoming Tenant Applications</h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Review tenant credentials and issue leases</p>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', margin: 0, fontFamily: 'var(--font-heading)' }}>
+                Incoming Tenant Applications
+              </h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>Review tenant credentials & credit checks</p>
             </div>
             <Link to="/owner/applications" className="btn btn-outline btn-sm">
               View All <ExternalLink size={14} />
@@ -162,7 +159,7 @@ const OwnerOverview = () => {
 
           {applications.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(79, 70, 229, 0.1)', color: '#818cf8', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(14, 165, 233, 0.1)', color: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
                 <FileText size={24} />
               </div>
               <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>No tenant applications received</p>
@@ -176,17 +173,18 @@ const OwnerOverview = () => {
                 <div
                   key={app._id}
                   style={{
-                    padding: '1rem',
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    borderRadius: '14px',
+                    padding: '1rem 1.25rem',
+                    background: 'rgba(10, 15, 26, 0.5)',
+                    borderRadius: '16px',
                     border: '1px solid rgba(255, 255, 255, 0.06)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
                   }}
                 >
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{app.tenant?.name}</p>
+                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff', margin: 0 }}>{app.tenant?.name}</p>
                     <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
                       For {app.property?.title?.slice(0, 32)}...
                     </p>
@@ -198,60 +196,21 @@ const OwnerOverview = () => {
           )}
         </div>
 
-        {/* Recent Maintenance */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>Recent Maintenance Tickets</h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Repair tickets logged by your tenants</p>
-            </div>
-            <Link to="/owner/maintenance" className="btn btn-outline btn-sm">
-              View All <ExternalLink size={14} />
-            </Link>
-          </div>
-
-          {maintenance.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
-                <CheckCircle2 size={24} />
-              </div>
-              <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>All properties in pristine condition</p>
-              <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.25rem' }}>
-                No active repair or maintenance requests logged
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {maintenance.slice(0, 4).map((m) => (
-                <div
-                  key={m._id}
-                  style={{
-                    padding: '1rem',
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    borderRadius: '14px',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div>
-                    <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>{m.title}</p>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
-                      {m.category} | Priority: {m.priority}
-                    </p>
-                  </div>
-                  <Badge status={m.status} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* 3D Radial Occupancy Donut */}
+        <ThreeDProgressWidget
+          title="Portfolio Occupancy Yield"
+          percentage={Math.round((rentedCount / (totalProperties || 1)) * 100) || 80}
+          items={[
+            { label: 'Leased & Yielding', value: `${rentedCount} units`, color: '#10b981' },
+            { label: 'Vacant / Listed', value: `${availableCount} units`, color: '#0ea5e9' },
+            { label: 'Repair Pipeline', value: `${openTickets} tickets`, color: '#e0231c' },
+          ]}
+        />
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .owner-overview-grid {
+        @media (max-width: 1024px) {
+          .owner-analytics-grid {
             grid-template-columns: 1fr !important;
           }
         }

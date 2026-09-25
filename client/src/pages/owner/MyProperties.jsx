@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
+import Button from '../../components/common/Button';
 import {
   Building2,
   PlusCircle,
@@ -292,22 +293,25 @@ const MyProperties = () => {
         maxWidth="750px"
         footer={
           <>
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
               onClick={() => setModalOpen(false)}
-              className="btn btn-secondary btn-sm"
               disabled={submitting}
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="primary"
+              size="sm"
               onClick={handleFormSubmit}
-              className="btn btn-primary btn-sm"
-              disabled={submitting}
+              loading={submitting}
+              loadingText="Saving..."
             >
-              {submitting ? 'Saving...' : editingProperty ? 'Save Updates' : 'Publish for Approval'}
-            </button>
+              {editingProperty ? 'Save Updates' : 'Publish for Approval'}
+            </Button>
           </>
         }
       >

@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
+import Button from '../../components/common/Button';
 import { CreditCard, CheckCircle2, QrCode, ShieldCheck, AlertCircle, ArrowDownLeft, Lock } from 'lucide-react';
 
 const RentPay = () => {
@@ -224,22 +225,25 @@ const RentPay = () => {
           footer={
             !paySuccess && (
               <>
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => setPayModalOpen(false)}
-                  className="btn btn-secondary btn-sm"
                   disabled={processingPay}
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="primary"
+                  size="sm"
                   onClick={handleSimulatePayment}
-                  className="btn btn-primary btn-sm"
-                  disabled={processingPay}
+                  loading={processingPay}
+                  loadingText="Authorizing Payment..."
                 >
-                  {processingPay ? 'Authorizing Payment...' : `Authorize ₹${(selectedRent.amount + (selectedRent.lateFee || 0)).toLocaleString()}`}
-                </button>
+                  Authorize ₹{(selectedRent.amount + (selectedRent.lateFee || 0)).toLocaleString()}
+                </Button>
               </>
             )
           }

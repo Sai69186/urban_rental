@@ -27,11 +27,12 @@ const Navbar = () => {
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        background: 'rgba(15, 23, 42, 0.92)',
+        background: 'rgba(5, 7, 10, 0.35)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid #334155',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
         width: '100%',
+        transition: 'background 0.3s ease, border-color 0.3s ease',
       }}
       className="no-print"
     >
@@ -56,45 +57,43 @@ const Navbar = () => {
         >
           <div
             style={{
-              width: '42px',
-              height: '42px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%)',
+              width: '38px',
+              height: '38px',
+              borderRadius: '10px',
+              background: '#e0231c',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#ffffff',
-              boxShadow: '0 4px 14px rgba(79, 70, 229, 0.4)',
+              boxShadow: '0 4px 16px rgba(224, 35, 28, 0.4)',
               flexShrink: 0,
             }}
           >
-            <Building2 size={22} />
+            <Building2 size={20} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span
               style={{
-                fontSize: '1.45rem',
-                fontWeight: 800,
-                letterSpacing: '-0.025em',
-                background: 'linear-gradient(to right, #ffffff, #e2e8f0, #c7d2fe)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                fontSize: '1.35rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                color: '#ffffff',
                 lineHeight: 1.15,
                 fontFamily: 'var(--font-heading)',
               }}
             >
-              UrbanNest
+              URBANNEST
             </span>
             <span
               style={{
                 fontSize: '0.65rem',
-                fontWeight: 700,
-                color: '#818cf8',
-                letterSpacing: '0.12em',
+                fontWeight: 600,
+                color: '#e0231c',
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
               }}
             >
-              Rental Platform
+              Architectural Residences
             </span>
           </div>
         </Link>

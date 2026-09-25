@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
+import Button from '../../components/common/Button';
 import {
   FileText,
   User,
@@ -227,22 +228,25 @@ const TenantApplications = () => {
           maxWidth="700px"
           footer={
             <>
-              <button
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
                 onClick={() => setLeaseModalOpen(false)}
-                className="btn btn-secondary btn-sm"
                 disabled={submittingLease}
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="primary"
+                size="sm"
                 onClick={handleGenerateLeaseSubmit}
-                className="btn btn-primary btn-sm"
-                disabled={submittingLease}
+                loading={submittingLease}
+                loadingText="Executing Agreement..."
               >
-                {submittingLease ? 'Executing Agreement...' : 'Execute Agreement & Issue to Tenant'}
-              </button>
+                Execute Agreement & Issue to Tenant
+              </Button>
             </>
           }
         >
