@@ -10,7 +10,11 @@ try {
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+    const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    if (!uri) {
+      throw new Error('Neither MONGODB_URI nor MONGO_URI environment variable is defined.');
+    }
+    const conn = await mongoose.connect(uri, {
       serverSelectionTimeoutMS: 10000,
     });
     console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
