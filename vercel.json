@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "source": "/((?!landing-pages|assets|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }
