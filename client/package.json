@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@designcodeio/threeui": "^1.2.0",
     "@tailwindcss/vite": "^4.3.3",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
