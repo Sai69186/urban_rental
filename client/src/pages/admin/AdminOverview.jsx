@@ -67,7 +67,7 @@ const AdminOverview = () => {
           title="Total Users"
           value={stats?.totalUsers || 0}
           icon={Users}
-          color="#8b5cf6"
+          color="#e0231c"
           change="+14.8%"
           changeType="positive"
           subtitle={`${stats?.totalOwners || 0} Owners • ${stats?.totalTenants || 0} Tenants`}
@@ -76,7 +76,7 @@ const AdminOverview = () => {
           title="Properties Listed"
           value={stats?.totalProperties || 0}
           icon={Building2}
-          color="#0ea5e9"
+          color="#c9a24a"
           change="+24.2%"
           changeType="positive"
           subtitle={`${stats?.approvedProperties || 0} Approved • ${stats?.pendingProperties || 0} Pending`}
@@ -94,7 +94,7 @@ const AdminOverview = () => {
           title="Revenue Processed"
           value={`₹${(stats?.totalRevenue || 0).toLocaleString()}`}
           icon={CreditCard}
-          color="#e0231c"
+          color="#ff5a3c"
           change="+18.4%"
           changeType="positive"
           subtitle={`₹${(stats?.pendingRent || 0).toLocaleString()} Outstanding`}
@@ -121,7 +121,7 @@ const AdminOverview = () => {
           title="Maintenance Requests"
           value={stats?.totalMaintenance || 0}
           icon={Wrench}
-          color="#38bdf8"
+          color="#e0231c"
           changeType={stats?.pendingMaintenance > 0 ? 'neutral' : 'positive'}
           subtitle={`${stats?.pendingMaintenance || 0} Active / Open`}
         />
@@ -129,7 +129,7 @@ const AdminOverview = () => {
           title="Rental Applications"
           value={stats?.totalApplications || 0}
           icon={FileCheck2}
-          color="#a855f7"
+          color="#c9a24a"
           subtitle={`${stats?.pendingApplications || 0} Pending Owner Review`}
         />
         <StatCard
@@ -147,22 +147,22 @@ const AdminOverview = () => {
         {/* Geographic Distribution Card */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: 'linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%)',
+            border: '1px solid rgba(223, 231, 224, 0.1)',
             borderRadius: '24px',
             padding: '1.75rem',
             boxShadow: '0 20px 45px -10px rgba(0, 0, 0, 0.5)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1.5rem' }}>
-            <div style={{ padding: '0.5rem', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.15)', color: '#c084fc' }}>
+            <div style={{ padding: '0.5rem', borderRadius: '12px', background: 'rgba(224, 35, 28, 0.15)', color: '#ff5a3c' }}>
               <MapPin size={20} />
             </div>
             <div>
               <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', margin: 0, fontFamily: 'var(--font-heading)' }}>
                 Geographic Property Density
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>Active Listings across major metropolises</p>
+              <p style={{ fontSize: '0.8rem', color: '#9aa89f', margin: '2px 0 0 0' }}>Active Listings across major metropolises</p>
             </div>
           </div>
 
@@ -172,23 +172,23 @@ const AdminOverview = () => {
                 <div key={idx}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.45rem' }}>
                     <span style={{ fontWeight: 700, color: '#ffffff' }}>{item._id || 'Unspecified'}</span>
-                    <span style={{ color: '#8b5cf6', fontWeight: 700 }}>{item.count} properties</span>
+                    <span style={{ color: '#ff5a3c', fontWeight: 700 }}>{item.count} properties</span>
                   </div>
                   <div style={{ height: '8px', background: 'rgba(255, 255, 255, 0.06)', borderRadius: '9999px', overflow: 'hidden' }}>
                     <div
                       style={{
                         height: '100%',
                         width: `${Math.min(100, (item.count / (stats?.totalProperties || 1)) * 100)}%`,
-                        background: 'linear-gradient(90deg, #8b5cf6, #e0231c)',
+                        background: 'linear-gradient(90deg, #e0231c, #ff5a3c)',
                         borderRadius: '9999px',
-                        boxShadow: '0 0 10px rgba(139, 92, 246, 0.5)',
+                        boxShadow: '0 0 10px rgba(224, 35, 28, 0.5)',
                       }}
                     />
                   </div>
                 </div>
               ))
             ) : (
-              <p style={{ color: '#64748b' }}>No city data recorded.</p>
+              <p style={{ color: '#67756c' }}>No city data recorded.</p>
             )}
           </div>
         </div>
@@ -199,7 +199,7 @@ const AdminOverview = () => {
           percentage={Math.round(((stats?.rentedProperties || 0) / (stats?.totalProperties || 1)) * 100) || 82}
           items={[
             { label: 'Occupied Units', value: `${stats?.rentedProperties || 0} units`, color: '#10b981' },
-            { label: 'Available Units', value: `${(stats?.totalProperties || 0) - (stats?.rentedProperties || 0)} units`, color: '#8b5cf6' },
+            { label: 'Available Units', value: `${(stats?.totalProperties || 0) - (stats?.rentedProperties || 0)} units`, color: '#c9a24a' },
             { label: 'Maintenance Hold', value: `${stats?.pendingMaintenance || 0} tickets`, color: '#e0231c' },
           ]}
         />

@@ -8,7 +8,7 @@ const StatCard = ({
   icon: Icon,
   change,
   changeType = 'positive',
-  color = '#8b5cf6',
+  color = '#e0231c',
   subtitle,
   progress = null,
 }) => {
@@ -85,8 +85,8 @@ const StatCard = ({
 
 const StyledCard = styled.div`
   position: relative;
-  background: linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%);
+  border: 1px solid rgba(223, 231, 224, 0.1);
   border-radius: 22px;
   padding: 1.5rem;
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.5);
@@ -96,8 +96,8 @@ const StyledCard = styled.div`
   overflow: hidden;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.95), 0 0 30px ${props => props.$accentColor || 'rgba(139, 92, 246, 0.3)'};
+    border-color: rgba(224, 35, 28, 0.4);
+    box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.95), 0 0 30px ${props => props.$accentColor || 'rgba(224, 35, 28, 0.3)'};
   }
 
   .card-ambient-glow {
@@ -107,7 +107,7 @@ const StyledCard = styled.div`
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: ${props => props.$accentColor || 'rgba(139, 92, 246, 0.25)'};
+    background: ${props => props.$accentColor || 'rgba(224, 35, 28, 0.25)'};
     filter: blur(40px);
     opacity: 0.4;
     pointer-events: none;
@@ -135,7 +135,7 @@ const StyledCard = styled.div`
   .card-title-text {
     font-size: 0.75rem;
     font-weight: 700;
-    color: #94a3b8;
+    color: #9aa89f;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
@@ -158,7 +158,7 @@ const StyledCard = styled.div`
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    color: ${props => props.$accentColor || '#8b5cf6'};
+    color: ${props => props.$accentColor || '#e0231c'};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,9 +185,9 @@ const StyledCard = styled.div`
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, ${props => props.$accentColor || '#8b5cf6'}, #e0231c);
+    background: linear-gradient(90deg, ${props => props.$accentColor || '#e0231c'}, #ff5a3c);
     border-radius: 100px;
-    box-shadow: 0 0 10px ${props => props.$accentColor || '#8b5cf6'};
+    box-shadow: 0 0 10px ${props => props.$accentColor || '#e0231c'};
     transition: width 0.8s ease-in-out;
   }
 

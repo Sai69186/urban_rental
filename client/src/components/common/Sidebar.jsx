@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../context/AuthContext';
+import { getRealisticAvatar } from '../../utils/avatarHelper';
 import {
   Building2,
   LayoutDashboard,
@@ -25,6 +26,8 @@ import {
   Zap,
 } from 'lucide-react';
 
+import UrbanNestLogo from './UrbanNestLogo';
+
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -45,6 +48,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { to: '/admin/complaints', label: 'Support & Complaints', icon: AlertCircle },
     { to: '/admin/audit-logs', label: 'Audit Trail', icon: ScrollText },
     { to: '/admin/broadcast', label: 'Broadcast Message', icon: Radio },
+    { to: '/admin/profile', label: 'Admin Profile', icon: User },
   ];
 
   const ownerLinks = [
@@ -75,8 +79,8 @@ const Sidebar = ({ isOpen, onClose }) => {
   else if (user?.role === 'owner') links = ownerLinks;
 
   const roleTheme = {
-    admin: { color: '#8b5cf6', badge: '#c084fc', glow: 'rgba(139, 92, 246, 0.4)' },
-    owner: { color: '#0ea5e9', badge: '#38bdf8', glow: 'rgba(14, 165, 233, 0.4)' },
+    admin: { color: '#e0231c', badge: '#ff5a3c', glow: 'rgba(224, 35, 28, 0.4)' },
+    owner: { color: '#c9a24a', badge: '#e5be65', glow: 'rgba(201, 162, 74, 0.4)' },
     tenant: { color: '#10b981', badge: '#34d399', glow: 'rgba(16, 185, 129, 0.4)' },
   };
 
@@ -86,15 +90,18 @@ const Sidebar = ({ isOpen, onClose }) => {
     <StyledSidebarWrapper className={`dashboard-sidebar ${isOpen ? 'open' : ''}`} $themeColor={theme.color} $themeGlow={theme.glow}>
       {/* Brand & 3D Logo Header */}
       <div className="sidebar-brand-box">
-        <div className="logo-cube-3d">
-          <Building2 size={22} />
-        </div>
-        <div className="brand-titles">
-          <span className="brand-name">UrbanNest</span>
-          <span className="brand-role" style={{ color: theme.badge }}>
-            {user?.role?.toUpperCase()} PORTAL
-          </span>
-        </div>
+        <NavLink to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          <div className="logo-cube-3d">
+            <UrbanNestLogo height={30} variant="icon-only" />
+          </div>
+          <div className="brand-titles">
+            <span className="brand-name">URBAN NEST</span>
+            <span className="brand-tagline">Get Houses without Strain</span>
+            <span className="brand-role" style={{ color: theme.badge }}>
+              {user?.role?.toUpperCase()} PORTAL
+            </span>
+          </div>
+        </NavLink>
       </div>
 
       {/* Navigation Rail */}
@@ -127,10 +134,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       <div className="sidebar-footer-box">
         <div className="user-profile-capsule">
           <img
-            src={
-              user?.profileImage ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=4f46e5&color=fff`
-            }
+            src={getRealisticAvatar(user)}
             alt={user?.name}
             className="user-avatar-img"
           />
@@ -140,8 +144,12 @@ const Sidebar = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        <button onClick={handleLogout} className="sign-out-btn">
-          <LogOut size={15} /> Sign Out
+        <button onClick={handleLogout} className="sign-out-btn btn-31">
+          <span className="text-container">
+            <span className="text">
+              <LogOut size={15} /> <span>Sign Out</span>
+            </span>
+          </span>
         </button>
       </div>
     </StyledSidebarWrapper>
@@ -174,12 +182,12 @@ const StyledSidebarWrapper = styled.aside`
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: linear-gradient(135deg, ${props => props.$themeColor || '#8b5cf6'}, #e0231c);
+    background: linear-gradient(135deg, ${props => props.$themeColor || '#e0231c'}, #c41e17);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    box-shadow: 0 4px 16px ${props => props.$themeGlow || 'rgba(139, 92, 246, 0.4)'};
+    box-shadow: 0 4px 16px ${props => props.$themeGlow || 'rgba(224, 35, 28, 0.4)'};
     flex-shrink: 0;
     transition: transform 0.3s ease;
   }
@@ -191,23 +199,33 @@ const StyledSidebarWrapper = styled.aside`
   .brand-titles {
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
 
   .brand-name {
-    font-size: 1.35rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
-    line-height: 1.15;
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #e0231c;
+    font-family: 'Playfair Display', 'Georgia', 'Cinzel', serif;
+    line-height: 1.1;
+  }
+
+  .brand-tagline {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: #ff5a3c;
+    letter-spacing: 0.02em;
+    margin-top: 1px;
+    line-height: 1.1;
   }
 
   .brand-role {
-    font-size: 0.68rem;
+    font-size: 0.64rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-top: 2px;
+    margin-top: 3px;
   }
 
   .sidebar-nav-container {
@@ -256,9 +274,9 @@ const StyledSidebarWrapper = styled.aside`
   .sidebar-nav-item.active {
     font-weight: 700;
     color: #ffffff;
-    background: linear-gradient(90deg, ${props => props.$themeGlow || 'rgba(139, 92, 246, 0.25)'} 0%, rgba(255, 255, 255, 0.03) 100%);
+    background: linear-gradient(90deg, ${props => props.$themeGlow || 'rgba(224, 35, 28, 0.25)'} 0%, rgba(255, 255, 255, 0.03) 100%);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-left: 3px solid ${props => props.$themeColor || '#8b5cf6'};
+    border-left: 3px solid ${props => props.$themeColor || '#e0231c'};
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   }
 
@@ -276,7 +294,7 @@ const StyledSidebarWrapper = styled.aside`
   }
 
   .sidebar-nav-item.active .icon-wrapper {
-    color: ${props => props.$themeColor || '#8b5cf6'};
+    color: ${props => props.$themeColor || '#e0231c'};
   }
 
   .nav-label-text {
@@ -287,7 +305,7 @@ const StyledSidebarWrapper = styled.aside`
   }
 
   .active-arrow {
-    color: ${props => props.$themeColor || '#8b5cf6'};
+    color: ${props => props.$themeColor || '#e0231c'};
     opacity: 0.9;
   }
 
@@ -315,7 +333,7 @@ const StyledSidebarWrapper = styled.aside`
     height: 38px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid ${props => props.$themeColor || 'rgba(139, 92, 246, 0.5)'};
+    border: 2px solid ${props => props.$themeColor || 'rgba(224, 35, 28, 0.5)'};
     flex-shrink: 0;
   }
 
@@ -350,13 +368,15 @@ const StyledSidebarWrapper = styled.aside`
     justify-content: center;
     gap: 0.4rem;
     font-size: 0.825rem;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0.55rem;
     border-radius: 10px;
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.25);
     color: #f87171;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: all 0.2s ease;
   }
 

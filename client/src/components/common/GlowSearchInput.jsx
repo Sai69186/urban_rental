@@ -70,7 +70,7 @@ const GlowSearchInput = ({
                 <linearGradient gradientTransform="rotate(50)" id="search-glow">
                   <stop stopColor="#ff5a3c" offset="0%" />
                   <stop stopColor="#e0231c" offset="50%" />
-                  <stop stopColor="#c084fc" offset="100%" />
+                  <stop stopColor="#c9a24a" offset="100%" />
                 </linearGradient>
                 <linearGradient id="searchl-glow">
                   <stop stopColor="#e0231c" offset="0%" />
@@ -247,7 +247,7 @@ const StyledWrapper = styled.div`
       #e0231c,
       rgba(0, 0, 0, 0) 10%,
       rgba(0, 0, 0, 0) 50%,
-      #c084fc,
+      #c9a24a,
       rgba(0, 0, 0, 0) 60%
     );
     transition: all 1.5s ease;

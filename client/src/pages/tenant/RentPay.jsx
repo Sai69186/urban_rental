@@ -4,19 +4,17 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
 import Button from '../../components/common/Button';
-import { CreditCard, CheckCircle2, QrCode, ShieldCheck, AlertCircle, ArrowDownLeft, Lock } from 'lucide-react';
+import RealisticPaymentGateway from '../../components/payment/RealisticPaymentGateway';
+import { CreditCard, CheckCircle2, QrCode, ShieldCheck, AlertCircle, ArrowDownLeft, Lock, Receipt } from 'lucide-react';
 
 const RentPay = () => {
   const [rents, setRents] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pay Modal
+  // Pay Modal & Gateway
   const [payModalOpen, setPayModalOpen] = useState(false);
   const [selectedRent, setSelectedRent] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('UPI');
-  const [processingPay, setProcessingPay] = useState(false);
-  const [paySuccess, setPaySuccess] = useState(false);
 
   const fetchRentData = async () => {
     try {
@@ -41,39 +39,15 @@ const RentPay = () => {
 
   const handleOpenPayModal = (rent) => {
     setSelectedRent(rent);
-    setPaySuccess(false);
     setPayModalOpen(true);
   };
 
-  const handleSimulatePayment = async (e) => {
-    e.preventDefault();
-    if (!selectedRent) return;
-
-    try {
-      setProcessingPay(true);
-      const res = await api.post('/payments', {
-        rentId: selectedRent._id,
-        agreementId: selectedRent.agreement?._id || selectedRent.agreement,
-        amount: selectedRent.amount + (selectedRent.lateFee || 0),
-        paymentMethod,
-        transactionReference: `UPI-${Date.now().toString().slice(-8)}`,
-        notes: `Simulated secure rent payment for ${selectedRent.month} ${selectedRent.year}`,
-      });
-
-      if (res.data.success) {
-        setPaySuccess(true);
-        setTimeout(() => {
-          setPayModalOpen(false);
-          setPaySuccess(false);
-          setSelectedRent(null);
-          fetchRentData();
-        }, 2000);
-      }
-    } catch (error) {
-      alert(error.response?.data?.message || 'Payment simulation failed');
-    } finally {
-      setProcessingPay(false);
+  const handleGatewayPaymentSettlement = async (payload) => {
+    const res = await api.post('/payments', payload);
+    if (res.data.success) {
+      fetchRentData();
     }
+    return res.data;
   };
 
   const pendingDues = rents.filter((r) => r.status === 'pending' || r.status === 'overdue');
@@ -215,117 +189,34 @@ const RentPay = () => {
         )}
       </div>
 
-      {/* Simulated Payment Portal Modal */}
-      {selectedRent && (
-        <Modal
-          isOpen={payModalOpen}
-          onClose={() => setPayModalOpen(false)}
-          title={`Pay Rent for ${selectedRent.month} ${selectedRent.year}`}
-          maxWidth="520px"
-          footer={
-            !paySuccess && (
-              <>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setPayModalOpen(false)}
-                  disabled={processingPay}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="sm"
-                  onClick={handleSimulatePayment}
-                  loading={processingPay}
-                  loadingText="Authorizing Payment..."
-                >
-                  Authorize ₹{(selectedRent.amount + (selectedRent.lateFee || 0)).toLocaleString()}
-                </Button>
-              </>
-            )
-          }
+      {/* High-Fidelity Realistic Payment Gateway Overlay */}
+      {selectedRent && payModalOpen && (
+        <div
+          className="modal-overlay"
+          onClick={() => setPayModalOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(3, 5, 8, 0.85)',
+            backdropFilter: 'blur(12px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '1rem'
+          }}
         >
-          {paySuccess ? (
-            <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <CheckCircle2 size={54} color="var(--success)" style={{ margin: '0 auto 1rem' }} />
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--success)' }}>Payment Successful!</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                ₹{(selectedRent.amount + (selectedRent.lateFee || 0)).toLocaleString()} settled to landlord. Transaction receipt generated.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSimulatePayment} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {/* Payment Summary Box */}
-              <div
-                style={{
-                  background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(16, 185, 129, 0.15))',
-                  border: '1px solid var(--border-color)',
-                  padding: '1.25rem',
-                  borderRadius: 'var(--radius-md)',
-                  textAlign: 'center',
-                }}
-              >
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Total Amount Due</span>
-                <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#ffffff', marginTop: '0.2rem' }}>
-                  ₹{(selectedRent.amount + (selectedRent.lateFee || 0)).toLocaleString()}
-                </h3>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                  {selectedRent.property?.title} ({selectedRent.month} {selectedRent.year})
-                </p>
-              </div>
-
-              {/* Payment Method Selector */}
-              <div className="form-group">
-                <label className="form-label">Select Payment Gateway / Method</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.65rem' }}>
-                  {['UPI', 'Card', 'Bank Transfer'].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setPaymentMethod(m)}
-                      className={`btn btn-sm ${paymentMethod === m ? 'btn-primary' : 'btn-outline'}`}
-                      style={{ padding: '0.65rem 0.2rem', fontSize: '0.85rem' }}
-                    >
-                      {m}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {paymentMethod === 'UPI' && (
-                <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '1rem', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                  <QrCode size={36} color="var(--primary-light)" style={{ margin: '0 auto 0.5rem' }} />
-                  <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>Simulated Instant UPI Gateway</p>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Clicking Authorize simulates instant bank reconciliation</span>
-                </div>
-              )}
-
-              {paymentMethod === 'Card' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <input type="text" className="form-input" placeholder="4111 2222 3333 4444 (Card Number)" defaultValue="4111 •••• •••• 4242" />
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                    <input type="text" className="form-input" placeholder="MM/YY" defaultValue="12/28" />
-                    <input type="password" className="form-input" placeholder="CVV" defaultValue="123" />
-                  </div>
-                </div>
-              )}
-
-              {paymentMethod === 'Bank Transfer' && (
-                <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Beneficiary: UrbanNest Escrow Account</p>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>IFSC: HDFC0001234</p>
-                </div>
-              )}
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', justifyContent: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                <Lock size={12} color="var(--success)" /> 256-Bit SSL Encrypted Payment Simulation
-              </div>
-            </form>
-          )}
-        </Modal>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: '820px' }}>
+            <RealisticPaymentGateway
+              rentItem={selectedRent}
+              onClose={() => {
+                setPayModalOpen(false);
+                setSelectedRent(null);
+              }}
+              onPaymentSuccess={handleGatewayPaymentSettlement}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

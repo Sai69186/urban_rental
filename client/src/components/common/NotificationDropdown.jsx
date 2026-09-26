@@ -131,7 +131,7 @@ const NotificationDropdown = () => {
                   style={{
                     padding: '0.85rem 1rem',
                     borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
-                    background: n.isRead ? 'transparent' : 'rgba(79, 70, 229, 0.08)',
+                    background: n.isRead ? 'transparent' : 'rgba(224, 35, 28, 0.08)',
                     cursor: 'pointer',
                     transition: 'background var(--transition-fast)',
                     display: 'flex',
@@ -140,7 +140,7 @@ const NotificationDropdown = () => {
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)')}
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = n.isRead ? 'transparent' : 'rgba(79, 70, 229, 0.08)')
+                    (e.currentTarget.style.background = n.isRead ? 'transparent' : 'rgba(224, 35, 28, 0.08)')
                   }
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

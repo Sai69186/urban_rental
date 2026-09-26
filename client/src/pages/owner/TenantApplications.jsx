@@ -4,6 +4,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
 import Button from '../../components/common/Button';
+import { getRealisticAvatar } from '../../utils/avatarHelper';
 import {
   FileText,
   User,
@@ -146,14 +147,14 @@ const TenantApplications = () => {
               {applications.map((app) => (
                 <tr key={app._id}>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <img
-                        src={app.tenant?.profileImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
+                        src={getRealisticAvatar(app.tenant)}
                         alt={app.tenant?.name}
-                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
+                        style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255, 255, 255, 0.12)' }}
                       />
                       <div>
-                        <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9rem' }}>{app.tenant?.name}</p>
+                        <p style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.9rem', marginBottom: '2px' }}>{app.tenant?.name}</p>
                         <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{app.employmentStatus}</p>
                       </div>
                     </div>

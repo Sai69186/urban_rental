@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Building2, Search, LogOut, Menu, X, LayoutDashboard } from 'lucide-react';
 import NotificationDropdown from './NotificationDropdown';
+import UrbanNestLogo from './UrbanNestLogo';
+import { getRealisticAvatar } from '../../utils/avatarHelper';
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -51,51 +53,10 @@ const Navbar = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.85rem',
             textDecoration: 'none',
           }}
         >
-          <div
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              background: '#e0231c',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#ffffff',
-              boxShadow: '0 4px 16px rgba(224, 35, 28, 0.4)',
-              flexShrink: 0,
-            }}
-          >
-            <Building2 size={20} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
-              style={{
-                fontSize: '1.35rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                color: '#ffffff',
-                lineHeight: 1.15,
-                fontFamily: 'var(--font-heading)',
-              }}
-            >
-              URBANNEST
-            </span>
-            <span
-              style={{
-                fontSize: '0.65rem',
-                fontWeight: 600,
-                color: '#e0231c',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-              }}
-            >
-              Architectural Residences
-            </span>
-          </div>
+          <UrbanNestLogo height={46} variant="horizontal" />
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -108,8 +69,8 @@ const Navbar = () => {
               gap: '0.45rem',
               fontSize: '0.925rem',
               fontWeight: 600,
-              color: location.pathname === '/explore' ? '#818cf8' : '#cbd5e1',
-              borderBottom: location.pathname === '/explore' ? '2px solid #6366f1' : '2px solid transparent',
+              color: location.pathname === '/explore' ? '#ff5a3c' : '#cbd5e1',
+              borderBottom: location.pathname === '/explore' ? '2px solid #e0231c' : '2px solid transparent',
               paddingBottom: '0.25rem',
               transition: 'color 0.15s ease',
             }}
@@ -121,8 +82,8 @@ const Navbar = () => {
             style={{
               fontSize: '0.925rem',
               fontWeight: 600,
-              color: location.pathname === '/about' ? '#818cf8' : '#cbd5e1',
-              borderBottom: location.pathname === '/about' ? '2px solid #6366f1' : '2px solid transparent',
+              color: location.pathname === '/about' ? '#ff5a3c' : '#cbd5e1',
+              borderBottom: location.pathname === '/about' ? '2px solid #e0231c' : '2px solid transparent',
               paddingBottom: '0.25rem',
               transition: 'color 0.15s ease',
             }}
@@ -134,8 +95,8 @@ const Navbar = () => {
             style={{
               fontSize: '0.925rem',
               fontWeight: 600,
-              color: location.pathname === '/contact' ? '#818cf8' : '#cbd5e1',
-              borderBottom: location.pathname === '/contact' ? '2px solid #6366f1' : '2px solid transparent',
+              color: location.pathname === '/contact' ? '#ff5a3c' : '#cbd5e1',
+              borderBottom: location.pathname === '/contact' ? '2px solid #e0231c' : '2px solid transparent',
               paddingBottom: '0.25rem',
               transition: 'color 0.15s ease',
             }}
@@ -158,21 +119,19 @@ const Navbar = () => {
                   alignItems: 'center',
                   gap: '0.65rem',
                   paddingLeft: '0.75rem',
-                  borderLeft: '1px solid #334155',
+                  borderLeft: '1px solid rgba(255,255,255,0.1)',
                 }}
               >
                 <img
-                  src={
-                    user?.profileImage ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=4f46e5&color=fff`
-                  }
+                  src={getRealisticAvatar(user)}
                   alt={user?.name}
                   style={{
                     width: '36px',
                     height: '36px',
                     borderRadius: '50%',
                     objectFit: 'cover',
-                    border: '2px solid rgba(129, 140, 248, 0.4)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.15)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
                   }}
                 />
                 <button

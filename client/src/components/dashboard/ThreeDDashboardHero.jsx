@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Sparkles, ShieldCheck, Activity, Cpu, ArrowUpRight, Zap, Building2, Key, Layers, Globe, Radio } from 'lucide-react';
+import { Sparkles, ShieldCheck, Activity, Cpu, ArrowUpRight, Zap, Key, Layers, Globe, Radio } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import UrbanNestLogo from '../common/UrbanNestLogo';
 
 /**
  * ThreeDDashboardHero
@@ -32,8 +33,8 @@ const ThreeDDashboardHero = ({
   };
 
   const roleColors = {
-    admin: { primary: '#8b5cf6', secondary: '#c084fc', glow: 'rgba(139, 92, 246, 0.35)', badge: 'ADMINISTRATIVE CORE' },
-    owner: { primary: '#0ea5e9', secondary: '#38bdf8', glow: 'rgba(14, 165, 233, 0.35)', badge: 'OWNER ASSET MATRIX' },
+    admin: { primary: '#e0231c', secondary: '#ff5a3c', glow: 'rgba(224, 35, 28, 0.35)', badge: 'ADMINISTRATIVE CORE' },
+    owner: { primary: '#c9a24a', secondary: '#e5be65', glow: 'rgba(201, 162, 74, 0.35)', badge: 'OWNER ASSET MATRIX' },
     tenant: { primary: '#10b981', secondary: '#34d399', glow: 'rgba(16, 185, 129, 0.35)', badge: 'TENANT SANCTUARY HUB' },
   };
 
@@ -88,14 +89,22 @@ const ThreeDDashboardHero = ({
           {/* CTA Action Buttons */}
           <div className="actions-row">
             {primaryAction && (
-              <Link to={primaryAction.to} className="hero-btn primary-btn">
-                <span>{primaryAction.label}</span>
-                <ArrowUpRight size={16} />
+              <Link to={primaryAction.to} className="hero-btn primary-btn btn-31">
+                <span className="text-container">
+                  <span className="text">
+                    <span>{primaryAction.label}</span>
+                    <ArrowUpRight size={16} />
+                  </span>
+                </span>
               </Link>
             )}
             {secondaryAction && (
-              <Link to={secondaryAction.to} className="hero-btn secondary-btn">
-                <span>{secondaryAction.label}</span>
+              <Link to={secondaryAction.to} className="hero-btn secondary-btn btn-31">
+                <span className="text-container">
+                  <span className="text">
+                    <span>{secondaryAction.label}</span>
+                  </span>
+                </span>
               </Link>
             )}
           </div>
@@ -117,7 +126,7 @@ const ThreeDDashboardHero = ({
             {/* Floating 3D Node Center */}
             <div className="isometric-cube-assembly">
               <div className="cube-top">
-                <Building2 size={38} className="node-icon" />
+                <UrbanNestLogo height={42} variant="icon-only" />
               </div>
               <div className="cube-face cube-front" />
               <div className="cube-face cube-right" />
@@ -135,7 +144,7 @@ const ThreeDDashboardHero = ({
             </div>
 
             <div className="orbit-chip chip-2">
-              <div className="chip-icon-box purple">
+              <div className="chip-icon-box vermilion">
                 <Layers size={14} />
               </div>
               <div>
@@ -145,7 +154,7 @@ const ThreeDDashboardHero = ({
             </div>
 
             <div className="orbit-chip chip-3">
-              <div className="chip-icon-box blue">
+              <div className="chip-icon-box gold">
                 <Globe size={14} />
               </div>
               <div>
@@ -164,17 +173,17 @@ const StyledHeroWrapper = styled.div`
   position: relative;
   width: 100%;
   border-radius: 28px;
-  background: linear-gradient(135deg, rgba(13, 19, 32, 0.45) 0%, rgba(8, 12, 22, 0.55) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.5), 0 0 45px ${props => props.$glowColor || 'rgba(139, 92, 246, 0.15)'};
+  background: linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%);
+  border: 1px solid rgba(223, 231, 224, 0.1);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.5), 0 0 45px ${props => props.$glowColor || 'rgba(224, 35, 28, 0.15)'};
   padding: clamp(2rem, 3.5vw, 3rem);
   overflow: hidden;
   perspective: 1200px;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.95), 0 0 60px ${props => props.$glowColor || 'rgba(139, 92, 246, 0.25)'};
+    border-color: rgba(224, 35, 28, 0.3);
+    box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.95), 0 0 60px ${props => props.$glowColor || 'rgba(224, 35, 28, 0.25)'};
   }
 
   .ambient-grid-canvas {
@@ -193,7 +202,7 @@ const StyledHeroWrapper = styled.div`
     left: 10%;
     width: 320px;
     height: 320px;
-    background: ${props => props.$glowColor || 'rgba(139, 92, 246, 0.2)'};
+    background: ${props => props.$glowColor || 'rgba(224, 35, 28, 0.2)'};
     opacity: 0.6;
   }
 
@@ -311,7 +320,7 @@ const StyledHeroWrapper = styled.div`
   }
 
   .metric-icon {
-    color: ${props => props.$primaryColor || '#8b5cf6'};
+    color: ${props => props.$primaryColor || '#e0231c'};
   }
 
   .actions-row {
@@ -325,38 +334,95 @@ const StyledHeroWrapper = styled.div`
   .hero-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.6rem;
+    padding: 0.75rem 1.75rem;
     border-radius: 100px;
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.04em;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .primary-btn {
-    background: ${props => props.$primaryColor || '#8b5cf6'};
+    background: ${props => props.$primaryColor || '#e0231c'};
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 24px -4px ${props => props.$glowColor || 'rgba(139, 92, 246, 0.4)'};
+    box-shadow: 0 8px 24px -4px ${props => props.$glowColor || 'rgba(224, 35, 28, 0.4)'};
   }
 
   .primary-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 30px -4px ${props => props.$glowColor || 'rgba(139, 92, 246, 0.6)'};
+    box-shadow: 0 12px 30px -4px ${props => props.$glowColor || 'rgba(224, 35, 28, 0.6)'};
   }
 
   .secondary-btn {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(10, 15, 26, 0.7);
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(223, 231, 224, 0.15);
+    backdrop-filter: blur(12px);
   }
 
   .secondary-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(20, 28, 42, 0.85);
+    border-color: rgba(224, 35, 28, 0.4);
     transform: translateY(-2px);
+  }
+
+  .hero-btn:before {
+    --progress: 100%;
+    background: #ffffff;
+    -webkit-clip-path: polygon(
+      100% 0,
+      var(--progress) var(--progress),
+      0 100%,
+      100% 100%
+    );
+    clip-path: polygon(
+      100% 0,
+      var(--progress) var(--progress),
+      0 100%,
+      100% 100%
+    );
+    content: "";
+    inset: 0;
+    position: absolute;
+    transition: -webkit-clip-path 0.25s cubic-bezier(0.16, 1, 0.3, 1), clip-path 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-btn:hover:before {
+    --progress: 0%;
+  }
+
+  .hero-btn .text-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-btn .text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 800;
+    position: relative;
+    color: #ffffff;
+    transition: color 0.2s ease;
+  }
+
+  .hero-btn:hover .text {
+    color: #05070a !important;
+    -webkit-animation: move-up-alternate 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: move-up-alternate 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   /* 3D Stage Styling */
@@ -396,14 +462,14 @@ const StyledHeroWrapper = styled.div`
   .ring-middle {
     width: 210px;
     height: 210px;
-    border-color: ${props => props.$glowColor || 'rgba(139, 92, 246, 0.3)'};
+    border-color: ${props => props.$glowColor || 'rgba(224, 35, 28, 0.3)'};
     animation: spinRingRev 18s linear infinite;
   }
 
   .ring-inner {
     width: 140px;
     height: 140px;
-    border-color: rgba(224, 35, 28, 0.3);
+    border-color: rgba(201, 162, 74, 0.4);
     animation: spinRing 12s linear infinite;
   }
 
@@ -435,9 +501,9 @@ const StyledHeroWrapper = styled.div`
     position: absolute;
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, ${props => props.$primaryColor || '#8b5cf6'}, #e0231c);
+    background: linear-gradient(135deg, ${props => props.$primaryColor || '#e0231c'}, #c41e17);
     border-radius: 20px;
-    box-shadow: 0 0 35px ${props => props.$glowColor || 'rgba(139, 92, 246, 0.6)'};
+    box-shadow: 0 0 35px ${props => props.$glowColor || 'rgba(224, 35, 28, 0.6)'};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -507,8 +573,8 @@ const StyledHeroWrapper = styled.div`
   }
 
   .chip-icon-box.green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-  .chip-icon-box.purple { background: rgba(139, 92, 246, 0.2); color: #c084fc; }
-  .chip-icon-box.blue { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+  .chip-icon-box.vermilion { background: rgba(224, 35, 28, 0.2); color: #ff5a3c; }
+  .chip-icon-box.gold { background: rgba(201, 162, 74, 0.2); color: #e5be65; }
 
   .chip-lbl {
     font-size: 0.65rem;

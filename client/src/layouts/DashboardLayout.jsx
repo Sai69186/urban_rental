@@ -21,8 +21,8 @@ const DashboardLayout = () => {
   };
 
   const roleStyles = {
-    admin: { bg: 'rgba(139, 92, 246, 0.15)', text: '#c084fc', border: 'rgba(139, 92, 246, 0.4)', glow: '#8b5cf6' },
-    owner: { bg: 'rgba(14, 165, 233, 0.15)', text: '#38bdf8', border: 'rgba(14, 165, 233, 0.4)', glow: '#0ea5e9' },
+    admin: { bg: 'rgba(224, 35, 28, 0.15)', text: '#ff5a3c', border: 'rgba(224, 35, 28, 0.4)', glow: '#e0231c' },
+    owner: { bg: 'rgba(201, 162, 74, 0.15)', text: '#e5be65', border: 'rgba(201, 162, 74, 0.4)', glow: '#c9a24a' },
     tenant: { bg: 'rgba(16, 185, 129, 0.15)', text: '#34d399', border: 'rgba(16, 185, 129, 0.4)', glow: '#10b981' },
   };
 
@@ -148,7 +148,7 @@ const DashboardLayout = () => {
               <img
                 src={
                   user?.profileImage ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=4f46e5&color=fff`
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=e0231c&color=fff`
                 }
                 alt={user?.name}
                 style={{

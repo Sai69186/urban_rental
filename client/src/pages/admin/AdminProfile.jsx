@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { User, Lock, CheckCircle2, AlertCircle, Phone, MapPin, Mail } from 'lucide-react';
+import { User, Lock, CheckCircle2, AlertCircle, Phone, MapPin, Mail, ShieldCheck } from 'lucide-react';
 import Button from '../../components/common/Button';
 import ProfilePhotoUploader from '../../components/common/ProfilePhotoUploader';
 
-const OwnerProfile = () => {
+const AdminProfile = () => {
   const { user, updateProfile, changePassword } = useAuth();
 
   const [profileData, setProfileData] = useState({
@@ -36,7 +36,7 @@ const OwnerProfile = () => {
       setProfileError('');
       setProfileSuccess('');
       await updateProfile(profileData);
-      setProfileSuccess('Profile details updated successfully!');
+      setProfileSuccess('Admin profile saved successfully!');
     } catch (err) {
       setProfileError(err.response?.data?.message || 'Failed to update profile');
     } finally {
@@ -51,7 +51,7 @@ const OwnerProfile = () => {
       setPasswordError('');
       setPasswordSuccess('');
       await changePassword(passwordData);
-      setPasswordSuccess('Password changed securely!');
+      setPasswordSuccess('Admin credentials updated securely!');
       setPasswordData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
     } catch (err) {
       setPasswordError(err.response?.data?.message || 'Failed to change password');
@@ -62,18 +62,18 @@ const OwnerProfile = () => {
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '1050px' }} className="profile-grid">
-      {/* Profile Details Form */}
+      {/* Profile Details Card */}
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
-              Property Owner Profile
+              Administrator Profile
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.825rem', margin: '2px 0 0' }}>
-              Manage your landlord account details and contact information
+              Manage your personal identity and platform contact details
             </p>
           </div>
-          <span className="badge badge-info">Property Owner</span>
+          <span className="badge badge-primary">Platform Admin</span>
         </div>
 
         {profileSuccess && (
@@ -119,7 +119,7 @@ const OwnerProfile = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Office / Residential Address</label>
+            <label className="form-label">Headquarters / Office Address</label>
             <input
               type="text"
               className="form-input"
@@ -129,7 +129,7 @@ const OwnerProfile = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Bio / Landlord Description</label>
+            <label className="form-label">Bio / Operational Summary</label>
             <textarea
               className="form-textarea"
               rows={3}
@@ -145,7 +145,7 @@ const OwnerProfile = () => {
             variant="primary"
             style={{ marginTop: '0.5rem' }}
           >
-            Save Profile Changes
+            Save Admin Profile
           </Button>
         </form>
       </div>
@@ -153,7 +153,7 @@ const OwnerProfile = () => {
       {/* Security & Password Form */}
       <div className="card">
         <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-          Security & Password
+          Admin Authentication & Security
         </h3>
 
         {passwordSuccess && (
@@ -170,7 +170,7 @@ const OwnerProfile = () => {
 
         <form onSubmit={handlePasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="form-group">
-            <label className="form-label">Current Password</label>
+            <label className="form-label">Current Master Password</label>
             <input
               type="password"
               required
@@ -214,7 +214,7 @@ const OwnerProfile = () => {
             variant="secondary"
             style={{ marginTop: '0.5rem' }}
           >
-            Update Password
+            Update Credentials
           </Button>
         </form>
       </div>
@@ -230,4 +230,4 @@ const OwnerProfile = () => {
   );
 };
 
-export default OwnerProfile;
+export default AdminProfile;

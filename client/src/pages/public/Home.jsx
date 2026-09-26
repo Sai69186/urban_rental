@@ -229,11 +229,13 @@ const Home = () => {
             style={{
               position: 'relative',
               width: '100%',
-              height: '520px',
+              height: '460px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               overflow: 'visible',
+              transform: 'translateY(-1.25rem)',
+              marginTop: '-0.5rem',
             }}
           >
             <Card isBackdrop={false} />

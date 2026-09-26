@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Shield, Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { Shield, Heart, Mail, Phone, MapPin } from 'lucide-react';
+import UrbanNestLogo from './UrbanNestLogo';
 
 const Footer = () => {
   return (
@@ -28,24 +29,8 @@ const Footer = () => {
         >
           {/* Brand Col */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                }}
-              >
-                <Building2 size={20} />
-              </div>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
-                UrbanNest
-              </span>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <UrbanNestLogo height={44} variant="horizontal" />
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
               Enterprise-grade Rental Property Management SaaS platform connecting verified owners and tenants with automated billing, digital agreements, and maintenance workflow.

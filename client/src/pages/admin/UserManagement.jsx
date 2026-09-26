@@ -3,6 +3,7 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Badge from '../../components/common/Badge';
 import GlowSearchInput from '../../components/common/GlowSearchInput';
+import { getRealisticAvatar } from '../../utils/avatarHelper';
 import { Users, Search, ShieldCheck, ShieldAlert, Trash2, CheckCircle2, XCircle } from 'lucide-react';
 
 const UserManagement = () => {
@@ -135,26 +136,57 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((u) => (
-                <tr key={u._id}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <img
-                        src={u.profileImage}
-                        alt={u.name}
-                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
-                      />
-                      <div>
-                        <p style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{u.name}</p>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{u.email}</p>
+              {users.map((u) => {
+                const roleColors = {
+                  admin: { badge: 'badge-primary' },
+                  owner: { badge: 'badge-info' },
+                  tenant: { badge: 'badge-success' }
+                };
+                const theme = roleColors[u.role] || roleColors.tenant;
+                const avatarSrc = getRealisticAvatar(u);
+
+                return (
+                  <tr key={u._id}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                        <div
+                          style={{
+                            width: '42px',
+                            height: '42px',
+                            borderRadius: '50%',
+                            border: '1.5px solid rgba(255, 255, 255, 0.12)',
+                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.35)',
+                            overflow: 'hidden',
+                            flexShrink: 0,
+                            background: '#111827',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <img
+                            src={avatarSrc}
+                            alt={u.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=1e293b&color=f8fafc`;
+                            }}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+                        <div>
+                          <p style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.92rem', letterSpacing: '-0.01em', marginBottom: '2px' }}>
+                            {u.name}
+                          </p>
+                          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{u.email}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span className={`badge ${u.role === 'admin' ? 'badge-primary' : (u.role === 'owner' ? 'badge-info' : 'badge-secondary')}`}>
-                      {u.role}
-                    </span>
-                  </td>
+                    </td>
+                    <td>
+                      <span className={`badge ${theme.badge}`}>
+                        {u.role}
+                      </span>
+                    </td>
                   <td>
                     <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{u.phone}</span>
                   </td>
@@ -217,7 +249,8 @@ const UserManagement = () => {
                     </div>
                   </td>
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </div>

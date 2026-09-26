@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { User, Lock, CheckCircle2, AlertCircle, Phone, MapPin, Mail } from 'lucide-react';
 import Button from '../../components/common/Button';
+import ProfilePhotoUploader from '../../components/common/ProfilePhotoUploader';
 
 const TenantProfile = () => {
   const { user, updateProfile, changePassword } = useAuth();
@@ -60,12 +61,20 @@ const TenantProfile = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '1000px' }} className="profile-grid">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '1050px' }} className="profile-grid">
       {/* Profile Details */}
       <div className="card">
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-          Tenant Profile & Contact Details
-        </h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+          <div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
+              Tenant Profile & Identity
+            </h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.825rem', margin: '2px 0 0' }}>
+              Manage your personal information and verified tenant contact details
+            </p>
+          </div>
+          <span className="badge badge-success">Resident Tenant</span>
+        </div>
 
         {profileSuccess && (
           <div style={{ padding: '0.75rem 1rem', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: 'var(--radius-md)', color: '#34d399', fontSize: '0.85rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -79,9 +88,16 @@ const TenantProfile = () => {
           </div>
         )}
 
+        {/* Dedicated Computer Photo Uploader */}
+        <ProfilePhotoUploader
+          currentImage={profileData.profileImage}
+          userName={profileData.name}
+          onImageChange={(newImage) => setProfileData({ ...profileData, profileImage: newImage })}
+        />
+
         <form onSubmit={handleProfileSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="form-group">
-            <label className="form-label">Full Name</label>
+            <label className="form-label">Full Legal Name</label>
             <input
               type="text"
               required
@@ -92,7 +108,7 @@ const TenantProfile = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Phone Number</label>
+            <label className="form-label">Contact Phone Number</label>
             <input
               type="tel"
               required
@@ -120,16 +136,6 @@ const TenantProfile = () => {
               placeholder="e.g. Software Engineer working at..."
               value={profileData.bio}
               onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Profile Image URL</label>
-            <input
-              type="text"
-              className="form-input"
-              value={profileData.profileImage}
-              onChange={(e) => setProfileData({ ...profileData, profileImage: e.target.value })}
             />
           </div>
 

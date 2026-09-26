@@ -30,6 +30,7 @@ import MaintenanceList from '../pages/admin/MaintenanceList';
 import ComplaintsList from '../pages/admin/ComplaintsList';
 import AuditLogs from '../pages/admin/AuditLogs';
 import BroadcastNotification from '../pages/admin/BroadcastNotification';
+import AdminProfile from '../pages/admin/AdminProfile';
 
 // Owner Pages
 import OwnerOverview from '../pages/owner/OwnerOverview';
@@ -79,6 +80,7 @@ const AppRoutes = () => {
             <Route path="/admin/complaints" element={<ComplaintsList />} />
             <Route path="/admin/audit-logs" element={<AuditLogs />} />
             <Route path="/admin/broadcast" element={<BroadcastNotification />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
           </Route>
         </Route>
 

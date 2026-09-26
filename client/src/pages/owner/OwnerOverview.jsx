@@ -101,7 +101,7 @@ const OwnerOverview = () => {
           title="Portfolio Listings"
           value={totalProperties}
           icon={Building2}
-          color="#0ea5e9"
+          color="#c9a24a"
           change="+12.5%"
           changeType="positive"
           subtitle={`${availableCount} Available • ${rentedCount} Leased`}
@@ -110,7 +110,7 @@ const OwnerOverview = () => {
           title="Tenant Applications"
           value={pendingApps}
           icon={FileText}
-          color="#8b5cf6"
+          color="#e0231c"
           changeType={pendingApps > 0 ? 'neutral' : 'positive'}
           subtitle="Tenants awaiting screening"
         />
@@ -127,7 +127,7 @@ const OwnerOverview = () => {
           title="Maintenance Requests"
           value={openTickets}
           icon={Wrench}
-          color="#e0231c"
+          color="#ff5a3c"
           changeType={openTickets > 0 ? 'neutral' : 'positive'}
           subtitle="Open repair requests"
         />
@@ -138,8 +138,8 @@ const OwnerOverview = () => {
         {/* Recent Applications Card */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: 'linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%)',
+            border: '1px solid rgba(223, 231, 224, 0.1)',
             borderRadius: '24px',
             padding: '1.75rem',
             boxShadow: '0 20px 45px -10px rgba(0, 0, 0, 0.5)',
@@ -150,20 +150,24 @@ const OwnerOverview = () => {
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', margin: 0, fontFamily: 'var(--font-heading)' }}>
                 Incoming Tenant Applications
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>Review tenant credentials & credit checks</p>
+              <p style={{ fontSize: '0.8rem', color: '#9aa89f', margin: '2px 0 0 0' }}>Review tenant credentials & credit checks</p>
             </div>
-            <Link to="/owner/applications" className="btn btn-outline btn-sm">
-              View All <ExternalLink size={14} />
+            <Link to="/owner/applications" className="btn btn-outline btn-sm btn-animated">
+              <span className="text-container">
+                <span className="text">
+                  <span>View All</span> <ExternalLink size={13} />
+                </span>
+              </span>
             </Link>
           </div>
 
           {applications.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2.5rem 1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(14, 165, 233, 0.1)', color: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(224, 35, 28, 0.1)', color: '#ff5a3c', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
                 <FileText size={24} />
               </div>
-              <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>No tenant applications received</p>
-              <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.25rem' }}>
+              <p style={{ color: '#dfe7e0', fontWeight: 600, fontSize: '0.95rem' }}>No tenant applications received</p>
+              <p style={{ color: '#67756c', fontSize: '0.825rem', marginTop: '0.25rem' }}>
                 Incoming tenant applications will appear here for verification
               </p>
             </div>
@@ -174,9 +178,9 @@ const OwnerOverview = () => {
                   key={app._id}
                   style={{
                     padding: '1rem 1.25rem',
-                    background: 'rgba(10, 15, 26, 0.5)',
+                    background: 'rgba(8, 12, 18, 0.6)',
                     borderRadius: '16px',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(223, 231, 224, 0.08)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -185,7 +189,7 @@ const OwnerOverview = () => {
                 >
                   <div>
                     <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff', margin: 0 }}>{app.tenant?.name}</p>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
+                    <p style={{ fontSize: '0.8rem', color: '#9aa89f', marginTop: '0.15rem' }}>
                       For {app.property?.title?.slice(0, 32)}...
                     </p>
                   </div>
@@ -202,7 +206,7 @@ const OwnerOverview = () => {
           percentage={Math.round((rentedCount / (totalProperties || 1)) * 100) || 80}
           items={[
             { label: 'Leased & Yielding', value: `${rentedCount} units`, color: '#10b981' },
-            { label: 'Vacant / Listed', value: `${availableCount} units`, color: '#0ea5e9' },
+            { label: 'Vacant / Listed', value: `${availableCount} units`, color: '#c9a24a' },
             { label: 'Repair Pipeline', value: `${openTickets} tickets`, color: '#e0231c' },
           ]}
         />

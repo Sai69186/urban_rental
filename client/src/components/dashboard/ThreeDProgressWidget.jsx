@@ -8,7 +8,7 @@ const ThreeDProgressWidget = ({
   percentage = 86,
   items = [
     { label: 'Occupied Units', value: '86%', color: '#10b981' },
-    { label: 'Pending Leases', value: '10%', color: '#8b5cf6' },
+    { label: 'Pending Leases', value: '10%', color: '#c9a24a' },
     { label: 'Under Maintenance', value: '4%', color: '#e0231c' },
   ],
 }) => {
@@ -32,7 +32,7 @@ const ThreeDProgressWidget = ({
         <div
           className="donut-ring-3d"
           style={{
-            background: `conic-gradient(#10b981 0% ${percentage}%, #8b5cf6 ${percentage}% 96%, #e0231c 96% 100%)`,
+            background: `conic-gradient(#10b981 0% ${percentage}%, #c9a24a ${percentage}% 96%, #e0231c 96% 100%)`,
           }}
         >
           <div className="donut-center-hole">
@@ -60,8 +60,8 @@ const ThreeDProgressWidget = ({
 
 const StyledWidget = styled.div`
   position: relative;
-  background: linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%);
+  border: 1px solid rgba(223, 231, 224, 0.1);
   border-radius: 24px;
   padding: 1.75rem;
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.5);
@@ -72,8 +72,8 @@ const StyledWidget = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.95), 0 0 35px rgba(16, 185, 129, 0.2);
+    border-color: rgba(224, 35, 28, 0.3);
+    box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.95), 0 0 35px rgba(224, 35, 28, 0.2);
   }
 
   .widget-header {
@@ -139,7 +139,7 @@ const StyledWidget = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(16, 185, 129, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(224, 35, 28, 0.25);
     position: relative;
     transition: transform 0.4s ease;
   }
@@ -152,7 +152,7 @@ const StyledWidget = styled.div`
     width: 106px;
     height: 106px;
     border-radius: 50%;
-    background: #080c16;
+    background: #05070a;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;

@@ -100,7 +100,7 @@ const Card = ({ className, style, isBackdrop = true }) => {
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100%;
-  min-height: 480px;
+  min-height: 400px;
   position: relative;
   display: flex;
   align-items: center;
@@ -118,15 +118,16 @@ const StyledWrapper = styled.div`
     align-items: center;
     justify-content: center;
     overflow: visible;
-    perspective: 1400px;
+    perspective: 1200px;
+    transform: translateY(-1.5rem);
   }
 
   .inner {
-    --w: 145px;
-    --h: 205px;
-    --translateZ: 340px;
+    --w: 112px;
+    --h: 158px;
+    --translateZ: 245px;
     --rotateX: -10deg;
-    --perspective: 1400px;
+    --perspective: 1200px;
     position: absolute;
     width: var(--w);
     height: var(--h);
@@ -152,7 +153,7 @@ const StyledWrapper = styled.div`
   .card {
     position: absolute;
     border: 1.5px solid rgba(var(--color-card), 0.85);
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
     inset: 0;
     box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.85), 0 0 20px rgba(var(--color-card), 0.3);
@@ -175,7 +176,7 @@ const StyledWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 0.65rem;
+    padding: 0.5rem;
     position: relative;
     opacity: 0.95;
   }
@@ -183,18 +184,18 @@ const StyledWrapper = styled.div`
   .card-info {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.1rem;
     text-align: left;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(5, 7, 10, 0.82);
-    padding: 0.4rem 0.55rem;
-    border-radius: 9px;
+    background: rgba(5, 7, 10, 0.85);
+    padding: 0.35rem 0.45rem;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.16);
   }
 
   .card-title {
-    font-size: 0.74rem;
+    font-size: 0.68rem;
     font-weight: 700;
     color: #ffffff;
     white-space: nowrap;
@@ -203,26 +204,29 @@ const StyledWrapper = styled.div`
   }
 
   .card-price {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 800;
     color: rgb(var(--color-card));
   }
 
   @media (max-width: 1200px) {
     .inner {
-      --w: 130px;
-      --h: 185px;
-      --translateZ: 290px;
+      --w: 100px;
+      --h: 142px;
+      --translateZ: 220px;
       --rotateX: -8deg;
     }
   }
 
   @media (max-width: 768px) {
-    min-height: 380px;
+    min-height: 320px;
+    .wrapper {
+      transform: translateY(0);
+    }
     .inner {
-      --w: 105px;
-      --h: 150px;
-      --translateZ: 220px;
+      --w: 88px;
+      --h: 125px;
+      --translateZ: 180px;
       --rotateX: -6deg;
     }
   }

@@ -40,7 +40,7 @@ const BroadcastNotification = () => {
     <div style={{ maxWidth: '650px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <div className="card" style={{ padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-          <div style={{ padding: '0.6rem', background: 'rgba(79, 70, 229, 0.15)', borderRadius: 'var(--radius-md)', color: 'var(--primary-light)' }}>
+          <div style={{ padding: '0.6rem', background: 'rgba(224, 35, 28, 0.15)', borderRadius: 'var(--radius-md)', color: 'var(--primary-light)' }}>
             <Radio size={24} />
           </div>
           <div>

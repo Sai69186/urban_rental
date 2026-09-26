@@ -126,7 +126,7 @@ const TenantOverview = () => {
           title="Current Due Balance"
           value={pendingRent ? `₹${(pendingRent.amount + (pendingRent.lateFee || 0)).toLocaleString()}` : '₹0'}
           icon={CreditCard}
-          color="#8b5cf6"
+          color="#e0231c"
           changeType={pendingRent?.status === 'overdue' ? 'negative' : pendingRent ? 'neutral' : 'positive'}
           subtitle={pendingRent ? `Due ${new Date(pendingRent.dueDate).toLocaleDateString()}` : 'All dues clear'}
         />
@@ -134,14 +134,14 @@ const TenantOverview = () => {
           title="My Applications"
           value={applications.length}
           icon={FileText}
-          color="#0ea5e9"
+          color="#c9a24a"
           subtitle={`${applications.filter((a) => a.status === 'pending').length} Under Screening`}
         />
         <StatCard
           title="Saved Sanctuaries"
           value={favorites.length}
           icon={Bookmark}
-          color="#e0231c"
+          color="#ff5a3c"
           subtitle="Bookmarked for review"
         />
       </div>
@@ -151,8 +151,8 @@ const TenantOverview = () => {
         {/* Applications Card */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(16, 22, 36, 0.45) 0%, rgba(10, 14, 24, 0.55) 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: 'linear-gradient(135deg, rgba(14, 20, 30, 0.65) 0%, rgba(8, 12, 18, 0.75) 100%)',
+            border: '1px solid rgba(223, 231, 224, 0.1)',
             borderRadius: '24px',
             padding: '1.75rem',
             boxShadow: '0 20px 45px -10px rgba(0, 0, 0, 0.5)',
@@ -163,10 +163,14 @@ const TenantOverview = () => {
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', margin: 0, fontFamily: 'var(--font-heading)' }}>
                 My Applications
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>Live screening and approval telemetry</p>
+              <p style={{ fontSize: '0.8rem', color: '#9aa89f', margin: '2px 0 0 0' }}>Live screening and approval telemetry</p>
             </div>
-            <Link to="/tenant/applications" className="btn btn-outline btn-sm">
-              View All <ExternalLink size={14} />
+            <Link to="/tenant/applications" className="btn btn-outline btn-sm btn-animated">
+              <span className="text-container">
+                <span className="text">
+                  <span>View All</span> <ExternalLink size={13} />
+                </span>
+              </span>
             </Link>
           </div>
 
@@ -175,12 +179,16 @@ const TenantOverview = () => {
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
                 <FileText size={24} />
               </div>
-              <p style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.95rem' }}>No rental applications submitted</p>
-              <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.25rem', marginBottom: '1.25rem' }}>
+              <p style={{ color: '#dfe7e0', fontWeight: 600, fontSize: '0.95rem' }}>No rental applications submitted</p>
+              <p style={{ color: '#67756c', fontSize: '0.825rem', marginTop: '0.25rem', marginBottom: '1.25rem' }}>
                 Explore properties and apply with 1-click tenant screening
               </p>
-              <Link to="/explore" className="btn btn-primary btn-sm">
-                <Search size={14} /> Browse Residences
+              <Link to="/explore" className="btn btn-primary btn-sm btn-animated">
+                <span className="text-container">
+                  <span className="text">
+                    <Search size={13} /> <span>Browse Residences</span>
+                  </span>
+                </span>
               </Link>
             </div>
           ) : (
@@ -190,9 +198,9 @@ const TenantOverview = () => {
                   key={app._id}
                   style={{
                     padding: '1rem 1.25rem',
-                    background: 'rgba(10, 15, 26, 0.5)',
+                    background: 'rgba(8, 12, 18, 0.6)',
                     borderRadius: '16px',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(223, 231, 224, 0.08)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -201,7 +209,7 @@ const TenantOverview = () => {
                 >
                   <div>
                     <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff', margin: 0 }}>{app.property?.title}</p>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>
+                    <p style={{ fontSize: '0.8rem', color: '#9aa89f', marginTop: '0.15rem' }}>
                       Move-In: {new Date(app.moveInDate).toLocaleDateString()} | {app.occupantsCount} Occupants
                     </p>
                   </div>
@@ -218,7 +226,7 @@ const TenantOverview = () => {
           percentage={96}
           items={[
             { label: 'On-Time Payments', value: '100%', color: '#10b981' },
-            { label: 'Covenant Verification', value: '100%', color: '#8b5cf6' },
+            { label: 'Covenant Verification', value: '100%', color: '#c9a24a' },
             { label: 'Open Service Logs', value: `${maintenance.filter((m) => m.status !== 'Resolved').length} tickets`, color: '#e0231c' },
           ]}
         />

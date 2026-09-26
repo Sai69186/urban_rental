@@ -258,9 +258,9 @@ const StyledWrapper = styled.div`
     transform: translateY(-2px);
   }
 
-  .demo-btn.admin { color: #c084fc; border-color: rgba(168, 85, 247, 0.35); }
-  .demo-btn.owner { color: #38bdf8; border-color: rgba(56, 189, 248, 0.35); }
-  .demo-btn.tenant { color: #34d399; border-color: rgba(74, 222, 128, 0.35); }
+  .demo-btn.admin { color: #ff5a3c; border-color: rgba(224, 35, 28, 0.35); }
+  .demo-btn.owner { color: #e5be65; border-color: rgba(201, 162, 74, 0.35); }
+  .demo-btn.tenant { color: #34d399; border-color: rgba(16, 185, 129, 0.35); }
 
   /* 3D Transparent Form */
   .form {
